@@ -121,11 +121,14 @@ function GoogleMaps(props) {
     }, [airports, flightPath]);
 
     return (
-        <div
-            id="google-map"
-            ref={googleMapRef}
-            style={mapStyles}
-        />
+        <div>
+            <div
+                id="google-map"
+                ref={googleMapRef}
+                style={mapStyles}
+            />
+        </div>
+
     )
 
 }
