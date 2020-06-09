@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.9.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+<<<<<<< HEAD
     "react-google-maps": "^9.4.5",
+=======
+    "react-router-dom": "^5.2.0",
+>>>>>>> e300f479f2dbaff8844890327071c208d53b0760
     "react-scripts": "3.4.1"
   },
   "scripts": {
