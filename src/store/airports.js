@@ -1,6 +1,8 @@
 const GET_AIRPORT_COORDS = 'GET_AIRPORT_COORDS';
 
-const getAirportCoords = value => ({ type: GET_AIRPORT_COORDS, value })
+
+const getAirportCoords = value => ({ type: GET_AIRPORT_COORDS, value });
+
 
 const updateAirportCoords = () => {
     return async (dispatch, getState) => {
@@ -20,6 +22,7 @@ const updateAirportCoords = () => {
     }
 }
 
+
 export const actions = {
 
 }
@@ -33,6 +36,7 @@ const initialState = []
 function reducer(state = initialState, action) {
     switch (action.type) {
         case GET_AIRPORT_COORDS: {
+
             return {
                 ...state,
                 airports: action.value
