@@ -49,7 +49,7 @@ function GoogleMaps(props) {
 
         console.log(airports.length)
         let markers = airports.map(airport => {
-            return new window.google.maps.Marker({ position: { lat: airport.lat, lng: airport.lng }, map: googleMap.current })
+            return new window.google.maps.Marker({ position: { lat: parseFloat(airport.lat), lng: parseFloat(airport.lng) }, map: googleMap.current })
         })
         console.log(markers)
         var markerCluster = new window.MarkerClusterer(googleMap.current, markers,
@@ -62,14 +62,15 @@ function GoogleMaps(props) {
         const { data } = await airportData.json()
 
         const revisedlist = data.map(airport => {
+            console.log('airport', airport)
             return {
-                lat: airport.lat,
-                lng: airport.lon,
+                lat: parseFloat(airport.lat),
+                lng: parseFloat(airport.lng),
                 id: airport.id
             }
         })
 
-        await setAirports(revisedlist)
+        setAirports(revisedlist)
         console.log(revisedlist)
         console.log(airports)
         //change later ----------------------------------------------------
@@ -89,17 +90,17 @@ function GoogleMaps(props) {
 
         if (airports.length > 0) {
             createMarker()
-            if (flightPath.length > 0) {
-                let flightPathPoly = new window.google.maps.Polyline({
-                    path: flightPath,
-                    geodesic: true,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2
-                });
-                console.log()
-                flightPathPoly.setMap(googleMap.current);
-            }
+            // if (flightPath.length > 0) {
+            //     let flightPathPoly = new window.google.maps.Polyline({
+            //         path: flightPath,
+            //         geodesic: true,
+            //         strokeColor: '#FF0000',
+            //         strokeOpacity: 1.0,
+            //         strokeWeight: 2
+            //     });
+            //     console.log()
+            //     flightPathPoly.setMap(googleMap.current);
+            // }
         } else if (airports.length == 0) {
             const googleMapScript = document.createElement('script');
             googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`
@@ -114,21 +115,18 @@ function GoogleMaps(props) {
 
                 googleMap.current = createGoogleMap();
                 // marker.current =
-
+                getAirportCoords()
             })
-            getAirportCoords()
+
         }
     }, [airports, flightPath]);
 
     return (
-        <div>
-            <div
-                id="google-map"
-                ref={googleMapRef}
-                style={mapStyles}
-            />
-        </div>
-
+        <div
+            id="google-map"
+            ref={googleMapRef}
+            style={mapStyles}
+        />
     )
 
 }

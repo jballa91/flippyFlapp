@@ -23,9 +23,6 @@ function App() {
   }
 
   return (
-<<<<<<< HEAD
-    <GoogleMaps />
-=======
     <div className="App">
       <Router history={history}>
         <header>
@@ -35,10 +32,10 @@ function App() {
           <Route path="/" exact />
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/external-api" component={ExternalAPI} />
+          <PrivateRoute path="/dashboard" component={GoogleMaps} />
         </Switch>
       </Router>
     </div>
->>>>>>> e300f479f2dbaff8844890327071c208d53b0760
   );
 }
 
