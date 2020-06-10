@@ -13,7 +13,7 @@ import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import ExternalAPI from "./views/ExternalApi";
 
-import GoogleMaps from './components/customMap'
+import GoogleMaps from "./components/dashboard/customMap";
 
 function App() {
   const { loading } = useAuth0();
