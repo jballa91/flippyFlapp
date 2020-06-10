@@ -9,6 +9,12 @@ import { Auth0Provider } from "./flippy-flapp-spa";
 import config from "./auth_config.json";
 import history from "./utils/history";
 
+//redux improts
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+
+const store = configureStore();
+
 // Redirect user to correct place after login
 const onRedirectCallback = (appState) => {
   history.push(
@@ -26,7 +32,10 @@ ReactDOM.render(
     audience={config.audience}
     onRedirectCallback={onRedirectCallback}
   >
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
+
   </Auth0Provider>,
   document.getElementById("root")
 );

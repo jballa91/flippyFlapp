@@ -1,18 +1,7 @@
-
 import React, { useEffect, useRef, useState } from 'react';
-let places = [
-    { name: 'Panda-Sycamore', lat: 32.626690, lng: -97.370000 },
-    { name: 'Panda-Hulen', lat: 32.711060, lng: -97.386340 },
-    { name: 'Panda-TrinityCommons', lat: 32.680090, lng: -97.464040 },
-    { name: 'Panda-Benbrook', lat: 32.6798922, lng: -97.4635325 },
-    { name: 'Panda-Burleson', lat: 32.7134158, lng: -97.2831792 },
-]
-var flightPlanCoordinates = [
-    { lat: 37.772, lng: -122.214 },
-    { lat: 21.291, lng: -157.821 },
-    { lat: -18.142, lng: 178.431 },
-    { lat: -27.467, lng: 153.027 }
-];
+import { connect } from 'react-redux'
+import { thunks } from '../../store/airports'
+
 // Variables
 let key = 'AIzaSyDscju6O6knNTt9zh71EQkt7Lk1XeejhyQ'
 const myLocation = { // CN Tower Landmark
@@ -58,6 +47,7 @@ function GoogleMaps(props) {
     }
 
     async function getAirportCoords() {
+
         const airportData = await fetch('http://localhost:5000/airports/coords')
         const { data } = await airportData.json()
 
@@ -87,7 +77,7 @@ function GoogleMaps(props) {
 
     // useEffect Hook
     useEffect(() => {
-
+        props.updateAirportCoords()
         if (airports.length > 0) {
             createMarker()
             // if (flightPath.length > 0) {
@@ -131,4 +121,16 @@ function GoogleMaps(props) {
 
 }
 
-export default GoogleMaps
+const mapStateToProps = state => {
+    return {
+        airports: state.airports.airports
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        updateAirportCoords: () => dispatch(thunks.updateAirportCoords())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleMaps)
