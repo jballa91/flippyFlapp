@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth0 } from "../flippy-flapp-spa";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 // import {
 //   AppBar,
 //   Toolbar,
@@ -13,23 +13,23 @@ import { Link } from "react-router-dom";
 // Import styles
 import styles from "../styles/navbar/Navbar.module.css";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    marginRight: theme.spacing(2),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     flexGrow: 1,
+//   },
+//   menuButton: {
+//     marginRight: theme.spacing(2),
+//   },
+//   title: {
+//     flexGrow: 1,
+//     marginRight: theme.spacing(2),
+//   },
+// }));
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <div className={styles.navbar}>
