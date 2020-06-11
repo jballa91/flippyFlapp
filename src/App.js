@@ -12,8 +12,7 @@ import history from "./utils/history";
 import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import ExternalAPI from "./views/ExternalApi";
-
-import GoogleMaps from "./components/dashboard/customMap";
+import Dashboard from "./components/dashboard/Dashboard.js";
 
 function App() {
   const { loading } = useAuth0();
@@ -32,7 +31,7 @@ function App() {
           <Route path="/" exact />
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/external-api" component={ExternalAPI} />
-          <PrivateRoute path="/dashboard" component={GoogleMaps} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
     </div>
