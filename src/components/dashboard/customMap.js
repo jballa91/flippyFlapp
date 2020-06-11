@@ -32,7 +32,7 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         //button to add start of flight path
         const addStartButton = document.createElement('button');
         addStartButton.innerHTML = 'Add to Start';
-        debugger;
+
         if (startButtonPressed) {
             console.log('1: here')
             addStartButton.setAttribute('style', 'display:none')
