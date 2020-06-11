@@ -19,8 +19,56 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
     // refs
     const googleMapRef = React.createRef();
     const googleMap = useRef(null);
+    const infoWindow = useRef(null);
+    const [addButtonPressed, setAddButtonPressed] = useState(false);
+    const [endButtonPressed, setEndButtonPressed] = useState(false);
 
     // helper functions
+    function createDomNode(airport) {
+        //div containing all info in the popup
+        const infoWindowDiv = document.createElement('div');
+        infoWindowDiv.innerHTML = `<div>Name: ${airport.data.name}</div>`;
+
+        //button to add start of flight path
+        const addStartButton = document.createElement('button');
+        addStartButton.innerHTML = 'Add to Start';
+        if (addButtonPressed) {
+            addStartButton.setAttribute('style', 'display:none')
+        }
+        addStartButton.addEventListener('click', () => {
+            // set start coords to redux store
+            console.log('Add Button Works')
+            addStartButton.setAttribute('style', 'display:none')
+            setAddButtonPressed(true)
+        })
+        infoWindowDiv.appendChild(addStartButton);
+
+        //button to add end of flight path
+        const addEndButton = document.createElement('button')
+        addEndButton.innerHTML = 'Add to End'
+        if (endButtonPressed) {
+            addEndButton.setAttribute('style', 'display:none')
+        }
+        addEndButton.addEventListener('click', () => {
+
+            console.log('End button works')
+            addEndButton.setAttribute('style', 'display:none')
+            setEndButtonPressed(true)
+        })
+        infoWindowDiv.appendChild(addEndButton);
+
+        //button to reset start and end of flight path
+        const resetButton = document.createElement('button')
+        resetButton.innerHTML = 'Reset Start and End'
+        resetButton.addEventListener('click', () => {
+            //reset coords in redux store
+            console.log('reset button works')
+        })
+        infoWindowDiv.appendChild(resetButton)
+
+        return infoWindowDiv
+    }
+
     const createGoogleMap = () =>
         new window.google.maps.Map(googleMapRef.current, {
             zoom: 14,
@@ -31,11 +79,39 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         });
 
     const createMarker = () => {
-
+        infoWindow.current = new window.google.maps.InfoWindow({ content: '<div></div>' });
+        // create markers
         let markers = airports.map(airport => {
-            return new window.google.maps.Marker({ position: { lat: parseFloat(airport.lat), lng: parseFloat(airport.lng) }, map: googleMap.current })
+            let marker = new window.google.maps.Marker({ position: { lat: parseFloat(airport.lat), lng: parseFloat(airport.lng) }, map: googleMap.current });
+
+            marker.addListener('click', async function (e) {
+                //rendering multiple windows because creating a new window obj for each marker
+
+                const markerLat = e.latLng.lat()
+                const markerLng = e.latLng.lng()
+
+                const data = { lat: markerLat, lng: markerLng }
+                const airportData = await fetch('http://localhost:5000/airports/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+
+                const airport = await airportData.json()
+                infoWindow.current.setContent(createDomNode(airport))
+                console.log(markerLat, markerLng)
+                console.log(airport.data)
+
+
+                infoWindow.current.open(googleMap.current, marker);
+            });
+
+            return marker;
         })
         console.log(markers)
+
         var markerCluster = new window.MarkerClusterer(googleMap.current, markers,
             { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
         console.log(markerCluster)
