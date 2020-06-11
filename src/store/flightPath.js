@@ -1,6 +1,15 @@
 const GET_FLIGHT_PATH = 'GET_FLIGHT_PATH';
+const SET_START_POINT = 'SET_START_POINT';
+const SET_END_POINT = 'SET_END_POINT';
+const RESET_START_END = 'RESET_START_END';
 
 const getFlightPath = value => ({ type: GET_FLIGHT_PATH, value });
+
+const setStartPoint = value => ({ type: SET_START_POINT, value });
+
+const setEndPoint = value => ({ type: SET_END_POINT, value });
+
+const resetStartEnd = () => ({ type: RESET_START_END, })
 
 const updateFLightPath = () => {
     return async (dispatch, getState) => {
@@ -17,7 +26,9 @@ const updateFLightPath = () => {
 }
 
 export const actions = {
-
+    setStartPoint,
+    setEndPoint,
+    resetStartEnd,
 }
 
 export const thunks = {
@@ -32,6 +43,25 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 flightPath: action.value
+            }
+        }
+        case SET_START_POINT: {
+            return {
+                ...state,
+                startPoint: action.value
+            }
+        }
+        case SET_END_POINT: {
+            return {
+                ...state,
+                endPoint: action.value
+            }
+        }
+        case RESET_START_END: {
+            return {
+                ...state,
+                endPoint: {},
+                startPoint: {},
             }
         }
         default: {

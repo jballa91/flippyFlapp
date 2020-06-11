@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux'
 import { thunks as AiportStore } from '../../store/airports';
-import { thunks as FlightPathStore } from '../../store/flightPath';
+import { thunks as FlightPathStoreThunks, actions as FlightPathStoreActions } from '../../store/flightPath';
 
 // Variables
 let key = 'AIzaSyDscju6O6knNTt9zh71EQkt7Lk1XeejhyQ'
@@ -15,7 +15,7 @@ const mapStyles = {
     height: '400px',
 };
 
-function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPath }) {
+function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPath, setStartPoint, setEndPoint, resetStartEnd }) {
     // refs
     const googleMapRef = React.createRef();
     const googleMap = useRef(null);
@@ -40,8 +40,8 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         addStartButton.addEventListener('click', () => {
             // set start coords to redux store
             console.log('Add Button Works')
+            setStartPoint(airport.data)
             addStartButton.setAttribute('style', 'display:none')
-
 
             startButtonPressed = true;
             console.log(startButtonPressed);
@@ -58,6 +58,7 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         addEndButton.addEventListener('click', () => {
 
             console.log('End button works')
+            setEndPoint(airport.data)
             addEndButton.setAttribute('style', 'display:none')
             endButtonPressed = true;
             console.log(endButtonPressed)
@@ -70,6 +71,7 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         resetButton.addEventListener('click', () => {
             //reset coords in redux store
             console.log('reset button works')
+            resetStartEnd();
             addStartButton.setAttribute('style', 'display:inline-block')
             addEndButton.setAttribute('style', 'display:inline-block')
             startButtonPressed = false;
@@ -193,14 +195,17 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
 const mapStateToProps = state => {
     return {
         airports: state.airports.airports || [],
-        flightPath: state.flightPath.flightPath || []
+        flightPath: state.flightPath.flightPath || [],
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        setStartPoint: (value) => dispatch(FlightPathStoreActions.setStartPoint(value)),
+        setEndPoint: (value) => dispatch(FlightPathStoreActions.setEndPoint(value)),
+        resetStartEnd: () => dispatch(FlightPathStoreActions.resetStartEnd()),
         updateAirportCoords: () => dispatch(AiportStore.updateAirportCoords()),
-        updateFLightPath: () => dispatch(FlightPathStore.updateFLightPath())
+        updateFLightPath: () => dispatch(FlightPathStoreThunks.updateFLightPath())
     }
 }
 
