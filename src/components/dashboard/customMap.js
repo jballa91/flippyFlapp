@@ -20,8 +20,8 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
     const googleMapRef = React.createRef();
     const googleMap = useRef(null);
     const infoWindow = useRef(null);
-    const [addButtonPressed, setAddButtonPressed] = useState(false);
-    const [endButtonPressed, setEndButtonPressed] = useState(false);
+    let startButtonPressed = false;
+    let endButtonPressed = false;
 
     // helper functions
     function createDomNode(airport) {
@@ -32,14 +32,19 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         //button to add start of flight path
         const addStartButton = document.createElement('button');
         addStartButton.innerHTML = 'Add to Start';
-        if (addButtonPressed) {
+        debugger;
+        if (startButtonPressed) {
+            console.log('1: here')
             addStartButton.setAttribute('style', 'display:none')
         }
         addStartButton.addEventListener('click', () => {
             // set start coords to redux store
             console.log('Add Button Works')
             addStartButton.setAttribute('style', 'display:none')
-            setAddButtonPressed(true)
+
+
+            startButtonPressed = true;
+            console.log(startButtonPressed);
         })
         infoWindowDiv.appendChild(addStartButton);
 
@@ -47,13 +52,15 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         const addEndButton = document.createElement('button')
         addEndButton.innerHTML = 'Add to End'
         if (endButtonPressed) {
+            console.log('2: here')
             addEndButton.setAttribute('style', 'display:none')
         }
         addEndButton.addEventListener('click', () => {
 
             console.log('End button works')
             addEndButton.setAttribute('style', 'display:none')
-            setEndButtonPressed(true)
+            endButtonPressed = true;
+            console.log(endButtonPressed)
         })
         infoWindowDiv.appendChild(addEndButton);
 
@@ -63,6 +70,10 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         resetButton.addEventListener('click', () => {
             //reset coords in redux store
             console.log('reset button works')
+            addStartButton.setAttribute('style', 'display:inline-block')
+            addEndButton.setAttribute('style', 'display:inline-block')
+            startButtonPressed = false;
+            endButtonPressed = false;
         })
         infoWindowDiv.appendChild(resetButton)
 
@@ -110,11 +121,10 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
 
             return marker;
         })
-        console.log(markers)
 
         var markerCluster = new window.MarkerClusterer(googleMap.current, markers,
             { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        console.log(markerCluster)
+
     }
 
     async function getAirportCoords() {
