@@ -15,9 +15,12 @@ import {
   MenuItem,
   Backdrop,
 } from "@material-ui/core";
+import FlightIcon from "@material-ui/icons/Flight";
+import RoomIcon from "@material-ui/icons/Room";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
 import GoogleMaps from "./customMap.js";
+import AirplaneForm from "./AirplaneForm";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -38,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   details: {
     display: "flex",
     flexDirection: "column",
+  },
+  menuIcon: {
+    marginRight: theme.spacing(2),
   },
   fab_container: {
     display: "flex",
@@ -73,10 +79,6 @@ const Dashboard = () => {
   const handleClose1 = () => {
     setAnchorEl1(null);
   };
-  const handleBackdropToggle = () => {
-    setBackdrop(!backdrop);
-    handleClose1();
-  };
 
   const handleAdd1 = (event) => {
     debugger;
@@ -85,6 +87,11 @@ const Dashboard = () => {
 
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+
+  const handleBackdropToggle = () => {
+    setBackdrop(!backdrop);
+    handleClose2();
   };
 
   const handleAdd2 = (event) => {
@@ -104,6 +111,7 @@ const Dashboard = () => {
               aria-controls="panel1bh-content"
               id="panel1bh-header"
             >
+              <RoomIcon className={classes.menuIcon} />
               <Typography>Flight Plans</Typography>
             </ExpansionPanelSummary>
             <Divider dark />
@@ -129,9 +137,7 @@ const Dashboard = () => {
                   open={Boolean(anchorEl1)}
                   onClose={handleClose1}
                 >
-                  <MenuItem onClick={handleBackdropToggle}>
-                    Add A New Route
-                  </MenuItem>
+                  <MenuItem>Add A New Route</MenuItem>
                   <MenuItem onClick={handleClose1}>Add Default Route</MenuItem>
                 </Menu>
               </div>
@@ -146,6 +152,7 @@ const Dashboard = () => {
               aria-controls="panel1bh-content"
               id="panel2bh-header"
             >
+              <FlightIcon className={classes.menuIcon} />
               <Typography>Planes</Typography>
             </ExpansionPanelSummary>
             <Divider dark />
@@ -171,7 +178,9 @@ const Dashboard = () => {
                   open={Boolean(anchorEl2)}
                   onClose={handleClose2}
                 >
-                  <MenuItem onClick={handleClose2}>Add A New Plane</MenuItem>
+                  <MenuItem onClick={handleBackdropToggle}>
+                    Add A New Plane
+                  </MenuItem>
                   <MenuItem onClick={handleClose2}>Add Default Plane</MenuItem>
                 </Menu>
               </div>
@@ -187,7 +196,7 @@ const Dashboard = () => {
         open={backdrop}
         onClick={handleBackdropClose}
       >
-        <Typography>Backdrop</Typography>
+        <AirplaneForm backdropClose={handleBackdropClose} />
       </Backdrop>
     </Box>
   );
