@@ -10,8 +10,12 @@ import config from "./auth_config.json";
 import history from "./utils/history";
 
 //redux improts
-import { Provider } from 'react-redux';
-import configureStore from './store/configureStore';
+import { Provider } from "react-redux";
+import configureStore from "./store/configureStore";
+
+// Material UI Import
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import theme from "./theme/muiTheme";
 
 const store = configureStore();
 
@@ -33,9 +37,10 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
   >
     <Provider store={store}>
-      <App />
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
     </Provider>
-
   </Auth0Provider>,
   document.getElementById("root")
 );

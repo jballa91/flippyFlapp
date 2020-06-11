@@ -3,7 +3,7 @@ const SET_START_POINT = 'SET_START_POINT';
 const SET_END_POINT = 'SET_END_POINT';
 const RESET_START_END = 'RESET_START_END';
 
-const getFlightPath = value => ({ type: GET_FLIGHT_PATH, value });
+const getFlightPath = (value) => ({ type: GET_FLIGHT_PATH, value });
 
 const setStartPoint = value => ({ type: SET_START_POINT, value });
 
@@ -33,9 +33,9 @@ export const actions = {
 
 export const thunks = {
     updateFLightPath,
-}
+};
 
-const initialState = []
+const initialState = [];
 
 function reducer(state = initialState, action) {
     switch (action.type) {
@@ -70,4 +70,5 @@ function reducer(state = initialState, action) {
     }
 }
 
-export default reducer
+
+export default reducer;
