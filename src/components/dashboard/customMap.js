@@ -165,63 +165,14 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
         var markerCluster = new window.MarkerClusterer(googleMap.current, markers,
             { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
 
-        // function GoogleMaps({
-        //   airports,
-        //   updateAirportCoords,
-        //   flightPath,
-        //   updateFLightPath,
-        // }) {
-        //   // refs
-        //   const googleMapRef = React.createRef();
-        //   const googleMap = useRef(null);
-
-        //   // helper functions
-        //   const createGoogleMap = () =>
-        //     new window.google.maps.Map(googleMapRef.current, {
-        //       zoom: 14,
-        //       center: {
-        //         lat: myLocation.lat,
-        //         lng: myLocation.lng,
-        //       },
-        //     });
-
-        //   const createMarker = () => {
-        //     let markers = airports.map((airport) => {
-        //       return new window.google.maps.Marker({
-        //         position: {
-        //           lat: parseFloat(airport.lat),
-        //           lng: parseFloat(airport.lng),
-        //         },
-        //         map: googleMap.current,
-        //       });
-        //     });
-        //     console.log(markers);
-        //     var markerCluster = new window.MarkerClusterer(googleMap.current, markers, {
-        //       imagePath:
-        //         "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-        //     });
-        //     console.log(markerCluster);
-        //   };
-
-
-
-        //   // useEffect Hook
-
-
-
-
     }
+
     async function getAirportCoords() {
         updateAirportCoords();
         updateFLightPath();
     }
-
     return <div id="google-map" ref={googleMapRef} style={mapStyles} />;
 }
-
-// GoogleMaps.defaultProps = {
-//     airports: []
-// }
 
 const mapStateToProps = state => {
     return {
