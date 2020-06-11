@@ -9,6 +9,11 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Fab,
+  Divider,
+  Menu,
+  MenuList,
+  MenuItem,
+  Backdrop,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
@@ -44,15 +49,48 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.success.dark,
     },
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 20,
+    color: "#fff",
+  },
 }));
 
 const Dashboard = () => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const [backdrop, setBackdrop] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+  const handleBackdropClose = () => {
+    setBackdrop(false);
+  };
+
+  const handleClose1 = () => {
+    setAnchorEl1(null);
+  };
+  const handleBackdropToggle = () => {
+    setBackdrop(!backdrop);
+    handleClose1();
+  };
+
+  const handleAdd1 = (event) => {
+    debugger;
+    setAnchorEl1(event.currentTarget);
+  };
+
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
+  const handleAdd2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
   return (
     <Box className={classes.page}>
       <Box className={classes.left_container}>
@@ -68,6 +106,7 @@ const Dashboard = () => {
             >
               <Typography>Flight Plans</Typography>
             </ExpansionPanelSummary>
+            <Divider dark />
             <ExpansionPanelDetails className={classes.details}>
               <>
                 <Typography>Put the list of flight plans here</Typography>
@@ -75,12 +114,26 @@ const Dashboard = () => {
               <div className={classes.fab_container}>
                 <Fab
                   color="primary"
-                  aria-label="add"
+                  aria-label="add-route"
+                  aria-controls="add-route"
+                  aria-haspopup="true"
+                  onClick={handleAdd1}
                   size="small"
                   className={classes.fab}
                 >
                   <AddIcon />
                 </Fab>
+                <Menu
+                  id="add-route"
+                  anchorEl={anchorEl1}
+                  open={Boolean(anchorEl1)}
+                  onClose={handleClose1}
+                >
+                  <MenuItem onClick={handleBackdropToggle}>
+                    Add A New Route
+                  </MenuItem>
+                  <MenuItem onClick={handleClose1}>Add Default Route</MenuItem>
+                </Menu>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -95,6 +148,7 @@ const Dashboard = () => {
             >
               <Typography>Planes</Typography>
             </ExpansionPanelSummary>
+            <Divider dark />
             <ExpansionPanelDetails className={classes.details}>
               <>
                 <Typography>Put list of planes here</Typography>
@@ -102,12 +156,24 @@ const Dashboard = () => {
               <div className={classes.fab_container}>
                 <Fab
                   color="primary"
-                  aria-label="add"
+                  aria-label="add-plane"
+                  aria-controls="add-plane"
+                  aria-haspopup="true"
+                  onClick={handleAdd2}
                   size="small"
                   className={classes.fab}
                 >
                   <AddIcon />
                 </Fab>
+                <Menu
+                  id="add-plane"
+                  anchorEl={anchorEl2}
+                  open={Boolean(anchorEl2)}
+                  onClose={handleClose2}
+                >
+                  <MenuItem onClick={handleClose2}>Add A New Plane</MenuItem>
+                  <MenuItem onClick={handleClose2}>Add Default Plane</MenuItem>
+                </Menu>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -116,6 +182,13 @@ const Dashboard = () => {
       <Box className={classes.right_container} anchor="right">
         <GoogleMaps />
       </Box>
+      <Backdrop
+        className={classes.backdrop}
+        open={backdrop}
+        onClick={handleBackdropClose}
+      >
+        <Typography>Backdrop</Typography>
+      </Backdrop>
     </Box>
   );
 };
