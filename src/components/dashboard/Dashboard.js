@@ -20,6 +20,7 @@ import RoomIcon from "@material-ui/icons/Room";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
 import GoogleMaps from "./customMap.js";
+import SubmitPath from './submitPath';
 import AirplaneForm from "./AirplaneForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -186,7 +187,9 @@ const Dashboard = () => {
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
+          <SubmitPath />
         </Box>
+
       </Box>
       <Box className={classes.right_container} anchor="right">
         <GoogleMaps />
