@@ -1,0 +1,10 @@
+.info-window__section-title{
+    border-bottom: 1px solid black;
+    text-align: center;
+    font-weight: 600;
+    margin: 5px 0px;
+}
+
+.info-window__section{
+    margin: 10px 0px;
+}
