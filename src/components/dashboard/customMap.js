@@ -5,7 +5,7 @@ import {
   thunks as FlightPathStoreThunks,
   actions as FlightPathStoreActions,
 } from "../../store/flightPath";
-
+import './mapInfoWindow.css';
 // Variables
 let key = "AIzaSyDscju6O6knNTt9zh71EQkt7Lk1XeejhyQ";
 let myLocation = {};
@@ -33,7 +33,6 @@ function GoogleMaps({
   airports,
   updateAirportCoords,
   flightPath,
-  updateFLightPath,
   setStartPoint,
   setEndPoint,
   resetStartEnd,
@@ -45,7 +44,7 @@ function GoogleMaps({
   let startButtonPressed = false;
   let endButtonPressed = false;
   useEffect(() => {
-    console.log("2nd use effect");
+
     if (flightPath.length > 0) {
       let flightPathPoly = new window.google.maps.Polyline({
         path: flightPath,
@@ -85,57 +84,89 @@ function GoogleMaps({
   // helper functions
   function createDomNode(airport) {
     //div containing all info in the popup
-    const infoWindowDiv = document.createElement("div");
-    infoWindowDiv.innerHTML = `<div>Name: ${airport.data.name}</div>`;
+    const infoWindowDiv = document.createElement('div');
+    infoWindowDiv.innerHTML = `
+    <div class="info-window">
+        <div class="info-window__top-info info-window__section">
+            <div class="info-window__section-title">
+                <div>${airport.data.name}</div>
+            </div>
+            <div><b>location:</b> ${airport.data.city}, ${airport.data.state}</div>
+            <div><b>lat, lng:</b> (${airport.data.lat}, ${airport.data.lon})</div>
+        </div>
+
+        <div class="info-window__middle-info info-window__section">
+            <div class="info-window__section-title">
+                <div>Airport Info</div>
+            </div>
+            <div><b>Location Id:</b> ${airport.data.loc_id}</div>
+            <div><b>CTAF:</b> ${airport.data.ctaf || 'None'}</div>
+            <div><b>Sectional Chart:</b> ${airport.data.sectional_chart}</div>
+            <div><b>Eleveation:</b> ${airport.data.elevation}</div>
+            <div><b>ATC Tower:</b> ${airport.data.atc_tower || 'None'}</div>
+            <div><b>Landing Fee:</b> ${airport.data.landing_fee || 'None'}</div>
+        </div>
+
+        <div class="info-window__bottom-info info-window__section">
+            <div class="info-window__section-title">
+                <div>Contact Info</div>
+            </div>
+            <div><b>FSS Phone Number</b>: ${airport.data.fss_phone_number || 'None'}</div>
+            <div><b>Manager Name:</b> ${airport.data.manager_name}</div>
+            <div><b>Manager Phone Number:</b> ${airport.data.manager_phone_number}</div>
+        </div>
+    </div>
+    `
 
     //button to add start of flight path
-    const addStartButton = document.createElement("button");
-    addStartButton.innerHTML = "Add to Start";
+    const addStartButton = document.createElement('button');
+    addStartButton.innerHTML = 'Add to Start';
 
     if (startButtonPressed) {
-      console.log("1: here");
-      addStartButton.setAttribute("style", "display:none");
+      console.log('1: here')
+      addStartButton.setAttribute('style', 'display:none')
     }
-    addStartButton.addEventListener("click", () => {
+    addStartButton.addEventListener('click', () => {
       // set start coords to redux store
-      console.log("Add Button Works");
-      setStartPoint(airport.data);
-      addStartButton.setAttribute("style", "display:none");
+      console.log('Add Button Works')
+      setStartPoint(airport.data)
+      addStartButton.setAttribute('style', 'display:none')
 
       startButtonPressed = true;
       console.log(startButtonPressed);
-    });
+    })
     infoWindowDiv.appendChild(addStartButton);
 
     //button to add end of flight path
-    const addEndButton = document.createElement("button");
-    addEndButton.innerHTML = "Add to End";
+    const addEndButton = document.createElement('button')
+    addEndButton.innerHTML = 'Add to End'
     if (endButtonPressed) {
-      console.log("2: here");
-      addEndButton.setAttribute("style", "display:none");
+      console.log('2: here')
+      addEndButton.setAttribute('style', 'display:none')
     }
-    addEndButton.addEventListener("click", () => {
-      console.log("End button works");
-      setEndPoint(airport.data);
-      addEndButton.setAttribute("style", "display:none");
+    addEndButton.addEventListener('click', () => {
+
+      console.log('End button works')
+      setEndPoint(airport.data)
+      addEndButton.setAttribute('style', 'display:none')
       endButtonPressed = true;
-      console.log(endButtonPressed);
-    });
+      console.log(endButtonPressed)
+    })
     infoWindowDiv.appendChild(addEndButton);
 
     //button to reset start and end of flight path
-    const resetButton = document.createElement("button");
-    resetButton.innerHTML = "Reset Start and End";
-    resetButton.addEventListener("click", () => {
+    const resetButton = document.createElement('button')
+    resetButton.innerHTML = 'Reset Start and End'
+    resetButton.addEventListener('click', () => {
       //reset coords in redux store
-      console.log("reset button works");
+      console.log('reset button works')
       resetStartEnd();
-      addStartButton.setAttribute("style", "display:inline-block");
-      addEndButton.setAttribute("style", "display:inline-block");
+      addStartButton.setAttribute('style', 'display:inline-block')
+      addEndButton.setAttribute('style', 'display:inline-block')
       startButtonPressed = false;
       endButtonPressed = false;
-    });
-    infoWindowDiv.appendChild(resetButton);
+    })
+    infoWindowDiv.appendChild(resetButton)
 
     return infoWindowDiv;
   }
@@ -197,7 +228,7 @@ function GoogleMaps({
 
   async function getAirportCoords() {
     updateAirportCoords();
-    updateFLightPath();
+    // updateFLightPath();
   }
   return <div id="google-map" ref={googleMapRef} style={mapStyles} />;
 }
