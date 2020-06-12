@@ -18,6 +18,7 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
 import GoogleMaps from "./customMap.js";
+import SubmitPath from './submitPath';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -177,7 +178,9 @@ const Dashboard = () => {
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
+          <SubmitPath />
         </Box>
+
       </Box>
       <Box className={classes.right_container} anchor="right">
         <GoogleMaps />

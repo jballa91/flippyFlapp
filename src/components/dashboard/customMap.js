@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux'
 import { thunks as AiportStore } from '../../store/airports';
 import { thunks as FlightPathStoreThunks, actions as FlightPathStoreActions } from '../../store/flightPath';
-
+import './mapInfoWindow.css'
 // Variables
 let key = "AIzaSyDscju6O6knNTt9zh71EQkt7Lk1XeejhyQ";
 const myLocation = {
@@ -23,6 +23,7 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
     const infoWindow = useRef(null);
     let startButtonPressed = false;
     let endButtonPressed = false;
+
     useEffect(() => {
         console.log("2nd use effect");
         if (flightPath.length > 0) {
@@ -61,11 +62,43 @@ function GoogleMaps({ airports, updateAirportCoords, flightPath, updateFLightPat
             });
         }
     }, [JSON.stringify(airports)]);
+
     // helper functions
     function createDomNode(airport) {
         //div containing all info in the popup
         const infoWindowDiv = document.createElement('div');
-        infoWindowDiv.innerHTML = `<div>Name: ${airport.data.name}</div>`;
+        infoWindowDiv.innerHTML = `
+        <div class="info-window">
+            <div class="info-window__top-info info-window__section">
+                <div class="info-window__section-title">
+                    <div>${airport.data.name}</div>
+                </div>
+                <div><b>location:</b> ${airport.data.city}, ${airport.data.state}</div>
+                <div><b>lat, lng:</b> (${airport.data.lat}, ${airport.data.lon})</div>
+            </div>
+
+            <div class="info-window__middle-info info-window__section">
+                <div class="info-window__section-title">
+                    <div>Airport Info</div>
+                </div>
+                <div><b>Location Id:</b> ${airport.data.loc_id}</div>
+                <div><b>CTAF:</b> ${airport.data.ctaf || 'None'}</div>
+                <div><b>Sectional Chart:</b> ${airport.data.sectional_chart}</div>
+                <div><b>Eleveation:</b> ${airport.data.elevation}</div>
+                <div><b>ATC Tower:</b> ${airport.data.atc_tower || 'None'}</div>
+                <div><b>Landing Fee:</b> ${airport.data.landing_fee || 'None'}</div>
+            </div>
+
+            <div class="info-window__bottom-info info-window__section">
+                <div class="info-window__section-title">
+                    <div>Contact Info</div>
+                </div>
+                <div><b>FSS Phone Number</b>: ${airport.data.fss_phone_number || 'None'}</div>
+                <div><b>Manager Name:</b> ${airport.data.manager_name}</div>
+                <div><b>Manager Phone Number:</b> ${airport.data.manager_phone_number}</div>
+            </div>
+        </div>
+        `
 
         //button to add start of flight path
         const addStartButton = document.createElement('button');
