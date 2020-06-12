@@ -118,12 +118,12 @@ const AirplaneForm = (props) => {
       onClick={(e) => handleClick(e)}
       onSubmit={(e) => handleSubmit(e)}
     >
-      <div>
+      <Box>
         <Typography className={classes.form__title} variant="h3">
           Create an Airplane
         </Typography>
-      </div>
-      <div className={classes.form__row}>
+      </Box>
+      <Box className={classes.form__row}>
         <InputLabel htmlFor="airplane-name-input">Airplane Name</InputLabel>
         <Input
           className={classes.form__text_input}
@@ -134,9 +134,9 @@ const AirplaneForm = (props) => {
           type="text"
           required
         />
-      </div>
-      <div className={classes.form__multi_row}>
-        <div className={classes.form__number_input}>
+      </Box>
+      <Box className={classes.form__multi_row}>
+        <Box className={classes.form__number_input}>
           <InputLabel htmlFor="airplane-fuel-load-input">Fuel Load</InputLabel>
           <Input
             id="airplane-fuel-load-input"
@@ -146,7 +146,7 @@ const AirplaneForm = (props) => {
             type="number"
             required
           />
-        </div>
+        </Box>
         <FormControl className={classes.form__fuel_type_input}>
           <InputLabel shrink id="airplane-fuel-type-input">
             Fuel Type
@@ -169,9 +169,9 @@ const AirplaneForm = (props) => {
             <MenuItem value={"100LL"}>100LL</MenuItem>
           </Select>
         </FormControl>
-      </div>
-      <div className={classes.form__multi_row}>
-        <div className={classes.form__number_input}>
+      </Box>
+      <Box className={classes.form__multi_row}>
+        <Box className={classes.form__number_input}>
           <InputLabel htmlFor="airplane-take-off-use-input">
             Start, Taxi, Take Off Fuel Use
           </InputLabel>
@@ -183,8 +183,8 @@ const AirplaneForm = (props) => {
             type="number"
             required
           />
-        </div>
-        <div className={classes.form__number_input}>
+        </Box>
+        <Box className={classes.form__number_input}>
           <InputLabel htmlFor="airplane-fuel-use-input">
             Fuel Consumption (Gal/hr)
           </InputLabel>
@@ -196,10 +196,10 @@ const AirplaneForm = (props) => {
             type="number"
             required
           />
-        </div>
-      </div>
-      <div className={classes.form__multi_row}>
-        <div className={classes.form__number_input}>
+        </Box>
+      </Box>
+      <Box className={classes.form__multi_row}>
+        <Box className={classes.form__number_input}>
           <InputLabel htmlFor="airplane-speed-input">Cruise Speed</InputLabel>
           <Input
             id="airplane-speed-input"
@@ -209,7 +209,7 @@ const AirplaneForm = (props) => {
             type="number"
             required
           />
-        </div>
+        </Box>
         <Button
           className={classes.form__submit}
           type="submit"
@@ -217,7 +217,7 @@ const AirplaneForm = (props) => {
         >
           Submit
         </Button>
-      </div>
+      </Box>
     </form>
   );
 };

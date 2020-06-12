@@ -153,7 +153,7 @@ const Dashboard = () => {
               id="panel2bh-header"
             >
               <FlightIcon className={classes.menuIcon} />
-              <Typography>Planes</Typography>
+              <Typography>Hangar</Typography>
             </ExpansionPanelSummary>
             <Divider dark />
             <ExpansionPanelDetails className={classes.details}>
