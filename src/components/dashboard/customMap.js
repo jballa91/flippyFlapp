@@ -33,7 +33,6 @@ function GoogleMaps({
   airports,
   updateAirportCoords,
   flightPath,
-  updateFLightPath,
   setStartPoint,
   setEndPoint,
   resetStartEnd,
