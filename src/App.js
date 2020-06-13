@@ -12,13 +12,29 @@ import history from "./utils/history";
 import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import ExternalAPI from "./views/ExternalApi";
+import SplashPage from "./components/SplashPage";
 import Dashboard from "./components/dashboard/Dashboard.js";
+import { Backdrop, CircularProgress } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 
 function App() {
-  const { loading } = useAuth0();
+  const { loading, isAuthenticated } = useAuth0();
+
+  const classes = useStyles();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
   }
 
   return (
@@ -28,10 +44,10 @@ function App() {
           <NavBar />
         </header>
         <Switch>
-          <Route path="/" exact />
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/external-api" component={ExternalAPI} />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
+          {isAuthenticated && <PrivateRoute path="/" component={Dashboard} />}
+          {!isAuthenticated && <Route path="/" exact component={SplashPage} />}
         </Switch>
       </Router>
     </div>
