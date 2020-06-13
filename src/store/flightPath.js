@@ -1,10 +1,12 @@
 import { api } from "../config";
+import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 
 const GET_FLIGHT_PATH = "GET_FLIGHT_PATH";
 const SET_START_POINT = "SET_START_POINT";
 const SET_END_POINT = "SET_END_POINT";
 const RESET_START_END = "RESET_START_END";
-const RESET_FLIGHT_PATH = "RESET_FLIGHT_PATH";
+const SHOW_START = "SHOW_START";
+const SHOW_END = "SHOW_END";
 
 const getFlightPath = (value) => ({ type: GET_FLIGHT_PATH, value });
 
@@ -14,11 +16,13 @@ const setEndPoint = (value) => ({ type: SET_END_POINT, value });
 
 const resetStartEnd = () => ({ type: RESET_START_END });
 
-const resetFlightPath = () => ({ type: RESET_FLIGHT_PATH });
+const setStart = (value) => ({ type: SHOW_START, value });
 
-const updateFlightPath = (user, token) => {
+const setEnd = (value) => ({ type: SHOW_END, value });
+
+const updateFLightPath = (optDistance, optLandings, user, token) => {
   return async (dispatch, getState) => {
-    // const opt = optDistance ? true : false;
+    const opt = optDistance ? true : false;
     const startPoint = getState().flightPath.startPoint;
     const endPoint = getState().flightPath.endPoint;
     const airplane = getState().airplanes.selectedAirplane;
@@ -27,6 +31,7 @@ const updateFlightPath = (user, token) => {
       airplane,
       startPoint,
       endPoint,
+      opt,
     };
     console.log(data);
 
@@ -40,19 +45,8 @@ const updateFlightPath = (user, token) => {
       body: JSON.stringify(data),
     });
     let result = await flightPathData.json();
-    console.log("RESULT:", result);
-    // const flightNums = Object.keys(result.route);
-    console.log("FLIGHTNUMS:", result.route);
 
-    const flightPath = result.route.map((key) => {
-      return {
-        lat: key.lat,
-        lng: key.lon,
-      };
-    });
-    console.log(flightPath);
-
-    dispatch(getFlightPath(flightPath));
+    dispatch(getFlightPath(result.route));
   };
 };
 
@@ -60,15 +54,15 @@ export const actions = {
   setStartPoint,
   setEndPoint,
   resetStartEnd,
-  resetFlightPath,
-  getFlightPath,
+  setStart,
+  setEnd,
 };
 
 export const thunks = {
-  updateFlightPath,
+  updateFLightPath,
 };
 
-const initialState = [];
+const initialState = { flightPath: [] };
 
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -98,10 +92,16 @@ function reducer(state = initialState, action) {
         flightPath: {},
       };
     }
-    case RESET_FLIGHT_PATH: {
+    case SHOW_END: {
       return {
         ...state,
-        flightPath: [],
+        endButtonPressed: action.value,
+      };
+    }
+    case SHOW_START: {
+      return {
+        ...state,
+        startButtonPressed: action.value,
       };
     }
     default: {
