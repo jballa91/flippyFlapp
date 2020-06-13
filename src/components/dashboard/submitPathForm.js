@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from 'react-redux';
 import { useAuth0 } from "../../flippy-flapp-spa";
+import { actions } from '../../store/flightPath';
 import {
   Box,
   Button,
@@ -43,7 +45,7 @@ function SubmitPathForm({
   const [optimizeByStops, setOptimizeByStops] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
+  const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
 
   function distanceOnChange() {
@@ -78,6 +80,10 @@ function SubmitPathForm({
     //if no
     // dispatch to populate flight path in store
     //show form
+  }
+
+  function resetStartAndEnd() {
+    dispatch(actions.resetStartEnd())
   }
 
   return (
@@ -118,6 +124,9 @@ function SubmitPathForm({
           </Button>
           <Button variant="contained" onClick={saveFlightPlan} color="primary">
             Save Flight Plan
+          </Button>
+          <Button variant="contained" onClick={resetStartAndEnd} color="primary">
+            Reset Points
           </Button>
         </Box>
       </FormGroup>

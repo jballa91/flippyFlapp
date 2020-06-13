@@ -41,12 +41,36 @@ function GoogleMaps({
   const googleMapRef = React.createRef();
   const googleMap = useRef(null);
   const infoWindow = useRef(null);
+  const Polyline = useRef(null);
+  const addStartButton = useRef(null);
+  const addEndButton = useRef(null);
+
   let startButtonPressed = false;
   let endButtonPressed = false;
   useEffect(() => {
-
+    if (Polyline.current) {
+      console.log('here')
+      Polyline.current.setMap(null);
+      // setStartPoint({});
+      // setEndPoint({});
+      startButtonPressed = false;
+      endButtonPressed = false;
+      // infoWindow.current = new window.google.maps.InfoWindow({
+      //   content: '<div></div>',
+      // });
+      addStartButton.current.setAttribute('style', 'display:inline-block');
+      addEndButton.current.setAttribute('style', 'display:inline-block');
+    }
     if (flightPath.length > 0) {
-      let flightPathPoly = new window.google.maps.Polyline({
+      if (Polyline.current) {
+        console.log('here')
+        Polyline.current.setMap(null);
+        // setStartPoint({});
+        // setEndPoint({});
+        startButtonPressed = false;
+        endButtonPressed = false;
+      }
+      Polyline.current = new window.google.maps.Polyline({
         path: flightPath,
         geodesic: true,
         strokeColor: "#FF0000",
@@ -54,7 +78,7 @@ function GoogleMaps({
         strokeWeight: 2,
       });
       console.log();
-      flightPathPoly.setMap(googleMap.current);
+      Polyline.current.setMap(googleMap.current);
     }
   }, [JSON.stringify(flightPath)]);
 
@@ -119,40 +143,40 @@ function GoogleMaps({
     `
 
     //button to add start of flight path
-    const addStartButton = document.createElement('button');
-    addStartButton.innerHTML = 'Add to Start';
+    addStartButton.current = document.createElement('button');
+    addStartButton.current.innerHTML = 'Add to Start';
 
     if (startButtonPressed) {
       console.log('1: here')
-      addStartButton.setAttribute('style', 'display:none')
+      addStartButton.current.setAttribute('style', 'display:none')
     }
-    addStartButton.addEventListener('click', () => {
+    addStartButton.current.addEventListener('click', () => {
       // set start coords to redux store
       console.log('Add Button Works')
       setStartPoint(airport.data)
-      addStartButton.setAttribute('style', 'display:none')
+      addStartButton.current.setAttribute('style', 'display:none')
 
       startButtonPressed = true;
       console.log(startButtonPressed);
     })
-    infoWindowDiv.appendChild(addStartButton);
+    infoWindowDiv.appendChild(addStartButton.current);
 
     //button to add end of flight path
-    const addEndButton = document.createElement('button')
-    addEndButton.innerHTML = 'Add to End'
+    addEndButton.current = document.createElement('button')
+    addEndButton.current.innerHTML = 'Add to End'
     if (endButtonPressed) {
       console.log('2: here')
-      addEndButton.setAttribute('style', 'display:none')
+      addEndButton.current.setAttribute('style', 'display:none')
     }
-    addEndButton.addEventListener('click', () => {
+    addEndButton.current.addEventListener('click', () => {
 
       console.log('End button works')
       setEndPoint(airport.data)
-      addEndButton.setAttribute('style', 'display:none')
+      addEndButton.current.setAttribute('style', 'display:none')
       endButtonPressed = true;
       console.log(endButtonPressed)
     })
-    infoWindowDiv.appendChild(addEndButton);
+    infoWindowDiv.appendChild(addEndButton.current);
 
     //button to reset start and end of flight path
     const resetButton = document.createElement('button')
@@ -161,8 +185,8 @@ function GoogleMaps({
       //reset coords in redux store
       console.log('reset button works')
       resetStartEnd();
-      addStartButton.setAttribute('style', 'display:inline-block')
-      addEndButton.setAttribute('style', 'display:inline-block')
+      addStartButton.current.setAttribute('style', 'display:inline-block')
+      addEndButton.current.setAttribute('style', 'display:inline-block')
       startButtonPressed = false;
       endButtonPressed = false;
     })

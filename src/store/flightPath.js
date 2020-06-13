@@ -85,6 +85,7 @@ function reducer(state = initialState, action) {
         ...state,
         endPoint: {},
         startPoint: {},
+        flightPath: {},
       };
     }
     default: {
