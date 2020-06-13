@@ -1,51 +1,46 @@
-const GET_AIRPORT_COORDS = 'GET_AIRPORT_COORDS';
+import { api } from "../config";
 
+const GET_AIRPORT_COORDS = "GET_AIRPORT_COORDS";
 
-const getAirportCoords = value => ({ type: GET_AIRPORT_COORDS, value });
-
+const getAirportCoords = (value) => ({ type: GET_AIRPORT_COORDS, value });
 
 const updateAirportCoords = () => {
-    return async (dispatch, getState) => {
-        const airportData = await fetch('http://localhost:5000/airports/coords')
+  return async (dispatch, getState) => {
+    const airportData = await fetch(`${api}/airports/coords`);
 
-        try {
-            if (airportData.ok) {
-                if (airportData.ok) {
-                    const { data } = await airportData.json()
-                    dispatch(getAirportCoords(data))
-                }
-            }
-        } catch (e) {
-            console.log(e)
+    try {
+      if (airportData.ok) {
+        if (airportData.ok) {
+          const { data } = await airportData.json();
+          dispatch(getAirportCoords(data));
         }
-
+      }
+    } catch (e) {
+      console.log(e);
     }
-}
+  };
+};
 
-
-export const actions = {
-
-}
+export const actions = {};
 
 export const thunks = {
-    updateAirportCoords
-}
+  updateAirportCoords,
+};
 
-const initialState = []
+const initialState = [];
 
 function reducer(state = initialState, action) {
-    switch (action.type) {
-        case GET_AIRPORT_COORDS: {
-
-            return {
-                ...state,
-                airports: action.value
-            }
-        }
-        default: {
-            return state;
-        }
+  switch (action.type) {
+    case GET_AIRPORT_COORDS: {
+      return {
+        ...state,
+        airports: action.value,
+      };
     }
+    default: {
+      return state;
+    }
+  }
 }
 
-export default reducer
+export default reducer;
