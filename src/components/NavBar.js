@@ -22,23 +22,23 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.main,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    color: "white",
+    color: "#000",
     textDecorationColor: "white",
     marginLeft: theme.spacing(2),
   },
   navlink: {
     display: "flex",
     alignItems: "center",
-    color: "white",
+    color: "#fff",
     textDecoration: "none",
     "&&:hover": {
-      color: "black",
+      color: "#000",
     },
   },
   navicon: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logBtn: {
     width: "100px",
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.secondary.main,
     borderRadius: "10px",
     color: "white",
     "&&:hover": {
@@ -75,19 +75,13 @@ const NavBar = () => {
         <Toolbar>
           {isAuthenticated && (
             <Breadcrumbs className={classes.bread}>
-              <Link className={classes.navlink} to="/">
-                <HomeRoundedIcon className={classes.navicon} fontSize="small" />
-                <Typography variation="h6" className={classes.navtext}>
-                  Home
-                </Typography>
-              </Link>
               <Link className={classes.navlink} to="/profile">
                 <AccountBoxIcon className={classes.navicon} fontSize="small" />
                 <Typography variation="h6" className={classes.navtext}>
                   Profile
                 </Typography>
               </Link>
-              <Link className={classes.navlink} to="/dashboard">
+              <Link className={classes.navlink} to="/" exact>
                 <MapRoundedIcon className={classes.navicon} fontSize="small" />
                 <Typography variation="h6" className={classes.navtext}>
                   Dashboard
