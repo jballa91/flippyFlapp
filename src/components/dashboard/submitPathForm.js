@@ -38,6 +38,7 @@ function SubmitPathForm({
   endPoint,
   updateFlightPath,
   setShowForm,
+  flightPath,
 }) {
   const classes = useStyles();
   const [optimizeByDistance, setOptimizeByDistance] = useState(true);
