@@ -46,24 +46,14 @@ function SubmitPathForm({
   const classes = useStyles();
   const [optimizeByDistance, setOptimizeByDistance] = useState(true);
   const [optimizeByStops, setOptimizeByStops] = useState(false);
-<<<<<<< HEAD
   const [flightPlanName, setFlightPlanName] = useState("");
-=======
-  const [flightPlanName, setFlightPlanName] = useState('');
->>>>>>> master
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showSaveFlight, setShowSaveFlight] = useState(false);
 
   const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
-<<<<<<< HEAD
   const flightPath = useSelector((state) => state.flightPath.flightPath || []);
-=======
-  const flightPath = useSelector(
-    (state) => state.flightPath.flightPath || []
-  );
->>>>>>> master
 
   function distanceOnChange() {
     setOptimizeByDistance(!optimizeByDistance);
