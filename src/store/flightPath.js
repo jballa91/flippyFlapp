@@ -4,6 +4,7 @@ const GET_FLIGHT_PATH = "GET_FLIGHT_PATH";
 const SET_START_POINT = "SET_START_POINT";
 const SET_END_POINT = "SET_END_POINT";
 const RESET_START_END = "RESET_START_END";
+const RESET_FLIGHT_PATH = "RESET_FLIGHT_PATH";
 
 const getFlightPath = (value) => ({ type: GET_FLIGHT_PATH, value });
 
@@ -13,9 +14,11 @@ const setEndPoint = (value) => ({ type: SET_END_POINT, value });
 
 const resetStartEnd = () => ({ type: RESET_START_END });
 
-const updateFLightPath = (optDistance, optLandings, user, token) => {
+const resetFlightPath = () => ({ type: RESET_FLIGHT_PATH });
+
+const updateFlightPath = (user, token) => {
   return async (dispatch, getState) => {
-    const opt = optDistance ? true : false;
+    // const opt = optDistance ? true : false;
     const startPoint = getState().flightPath.startPoint;
     const endPoint = getState().flightPath.endPoint;
     const airplane = getState().airplanes.selectedAirplane;
@@ -24,8 +27,8 @@ const updateFLightPath = (optDistance, optLandings, user, token) => {
       airplane,
       startPoint,
       endPoint,
-      opt,
     };
+    console.log(data);
 
     //some fetch request for the future
     const flightPathData = await fetch(`${api}/flightplans/pathcalc`, {
@@ -37,14 +40,19 @@ const updateFLightPath = (optDistance, optLandings, user, token) => {
       body: JSON.stringify(data),
     });
     let result = await flightPathData.json();
-    console.log(result);
-    // const flightNums = Object.keys(result);
-    // const flightPath = flightNums.map((key) => {
-    //   return { lat: parseFloat(key.lat), lon: parseFloat(key.lng) };
-    // });
-    // console.log(flightNums);
+    console.log("RESULT:", result);
+    // const flightNums = Object.keys(result.route);
+    console.log("FLIGHTNUMS:", result.route);
 
-    dispatch(getFlightPath(result.route));
+    const flightPath = result.route.map((key) => {
+      return {
+        lat: key.lat,
+        lng: key.lon,
+      };
+    });
+    console.log(flightPath);
+
+    dispatch(getFlightPath(flightPath));
   };
 };
 
@@ -52,10 +60,12 @@ export const actions = {
   setStartPoint,
   setEndPoint,
   resetStartEnd,
+  resetFlightPath,
+  getFlightPath,
 };
 
 export const thunks = {
-  updateFLightPath,
+  updateFlightPath,
 };
 
 const initialState = [];
@@ -86,6 +96,12 @@ function reducer(state = initialState, action) {
         endPoint: {},
         startPoint: {},
         flightPath: {},
+      };
+    }
+    case RESET_FLIGHT_PATH: {
+      return {
+        ...state,
+        flightPath: [],
       };
     }
     default: {

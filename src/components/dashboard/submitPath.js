@@ -9,7 +9,7 @@ import FlightPlanForm from "./flightPlanForm";
 
 const useStyles = makeStyles((theme) => ({}));
 
-function SubmitPath({ startPoint, endPoint, updateFLightPath, flightPath }) {
+function SubmitPath({ startPoint, endPoint, updateFlightPath, flightPath }) {
   return (
     <>
       {startPoint.name ? (
@@ -26,9 +26,9 @@ function SubmitPath({ startPoint, endPoint, updateFLightPath, flightPath }) {
         <SubmitPathForm
           startPoint={startPoint}
           endPoint={endPoint}
-          updateFLightPath={updateFLightPath}
+          updateFlightPath={updateFlightPath}
           flightPath={flightPath}
-          updateFLightPath={updateFLightPath}
+          updateFlightPath={updateFlightPath}
         />
       ) : (
         <></>
@@ -47,9 +47,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateFLightPath: (bool1, bool2, userId, token) =>
+    updateFlightPath: (bool1, bool2, userId, token) =>
       dispatch(
-        FlightPathStoreThunks.updateFLightPath(bool1, bool2, userId, token)
+        FlightPathStoreThunks.updateFlightPath(bool1, bool2, userId, token)
       ),
   };
 };
