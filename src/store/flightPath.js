@@ -5,13 +5,8 @@ const GET_FLIGHT_PATH = "GET_FLIGHT_PATH";
 const SET_START_POINT = "SET_START_POINT";
 const SET_END_POINT = "SET_END_POINT";
 const RESET_START_END = "RESET_START_END";
-<<<<<<< HEAD
 const SHOW_START = "SHOW_START";
 const SHOW_END = "SHOW_END";
-=======
-const SHOW_START = 'SHOW_START';
-const SHOW_END = 'SHOW_END';
->>>>>>> master
 
 const getFlightPath = (value) => ({ type: GET_FLIGHT_PATH, value });
 
@@ -21,15 +16,9 @@ const setEndPoint = (value) => ({ type: SET_END_POINT, value });
 
 const resetStartEnd = () => ({ type: RESET_START_END });
 
-<<<<<<< HEAD
 const setStart = (value) => ({ type: SHOW_START, value });
 
 const setEnd = (value) => ({ type: SHOW_END, value });
-=======
-const setStart = value => ({ type: SHOW_START, value })
-
-const setEnd = value => ({ type: SHOW_END, value })
->>>>>>> master
 
 const updateFLightPath = (optDistance, optLandings, user, token) => {
   return async (dispatch, getState) => {
@@ -106,24 +95,14 @@ function reducer(state = initialState, action) {
     case SHOW_END: {
       return {
         ...state,
-<<<<<<< HEAD
         endButtonPressed: action.value,
       };
-=======
-        endButtonPressed: action.value
-      }
->>>>>>> master
     }
     case SHOW_START: {
       return {
         ...state,
-<<<<<<< HEAD
         startButtonPressed: action.value,
       };
-=======
-        startButtonPressed: action.value
-      }
->>>>>>> master
     }
     default: {
       return state;

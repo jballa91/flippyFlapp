@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
-=======
-import { useDispatch, useSelector } from 'react-redux';
->>>>>>> master
 import { useAuth0 } from "../../flippy-flapp-spa";
 import { actions } from "../../store/flightPath";
 import {
@@ -73,7 +69,6 @@ function SubmitPathForm({
     //send dispatch to populate flight path in store
     updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     //change polyline on map
-
   }
 
   async function saveFlightPlan() {
