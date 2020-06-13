@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
-import { useDispatch } from 'react-redux';
-import { useAuth0 } from "../../flippy-flapp-spa";
-import { actions } from '../../store/flightPath';
-=======
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useAuth0 } from "../../flippy-flapp-spa";
 import { actions } from "../../store/flightPath";
-
->>>>>>> different algo
 import {
   Box,
   Button,
@@ -51,14 +44,7 @@ function SubmitPathForm({
   const [optimizeByStops, setOptimizeByStops] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-<<<<<<< HEAD
   const dispatch = useDispatch();
-=======
-
-  const dispatch = useDispatch();
-  const flightPath = useSelector((state) => state.flightPath.flightPath || []);
-
->>>>>>> different algo
   const { user, getTokenSilently } = useAuth0();
 
   function distanceOnChange() {
@@ -97,7 +83,7 @@ function SubmitPathForm({
   }
 
   function resetStartAndEnd() {
-    dispatch(actions.resetStartEnd())
+    dispatch(actions.resetStartEnd());
   }
 
   return (
@@ -139,7 +125,11 @@ function SubmitPathForm({
           <Button variant="contained" onClick={saveFlightPlan} color="primary">
             Save Flight Plan
           </Button>
-          <Button variant="contained" onClick={resetStartAndEnd} color="primary">
+          <Button
+            variant="contained"
+            onClick={resetStartAndEnd}
+            color="primary"
+          >
             Reset Points
           </Button>
         </Box>
