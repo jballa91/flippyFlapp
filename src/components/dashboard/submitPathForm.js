@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "../../flippy-flapp-spa";
-import { actions } from '../../store/flightPath';
+import { actions } from "../../store/flightPath";
 import {
   Box,
   Button,
@@ -42,16 +42,14 @@ function SubmitPathForm({
   const classes = useStyles();
   const [optimizeByDistance, setOptimizeByDistance] = useState(true);
   const [optimizeByStops, setOptimizeByStops] = useState(false);
-  const [flightPlanName, setFlightPlanName] = useState('');
+  const [flightPlanName, setFlightPlanName] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showSaveFlight, setShowSaveFlight] = useState(false);
 
   const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
-  const flightPath = useSelector(
-    (state) => state.flightPath.flightPath || []
-  );
+  const flightPath = useSelector((state) => state.flightPath.flightPath || []);
 
   function distanceOnChange() {
     setOptimizeByDistance(!optimizeByDistance);
@@ -71,7 +69,6 @@ function SubmitPathForm({
     //send dispatch to populate flight path in store
     updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     //change polyline on map
-
   }
 
   async function saveFlightPlan() {
@@ -84,9 +81,10 @@ function SubmitPathForm({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ lat: airport.lat, lng: airport.lng }),
-      })
+      });
 
       const { data } = await airportData.json();
       console.log(data.id);
@@ -107,8 +105,8 @@ function SubmitPathForm({
       endMinute: endDate.getMinutes(),
       name: flightPlanName,
       route: airportIds,
-      user_id: 1,
-    }
+      user_id: user.id,
+    };
     console.log(data);
     console.log(flightPath);
 
@@ -119,11 +117,10 @@ function SubmitPathForm({
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
-    })
+    });
 
-    const flightPlan = await flightPlanData.json()
-    console.log(flightPlan)
-
+    const flightPlan = await flightPlanData.json();
+    console.log(flightPlan);
 
     // updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     //if yes
@@ -134,7 +131,7 @@ function SubmitPathForm({
   }
 
   function resetStartAndEnd() {
-    dispatch(actions.resetStartEnd())
+    dispatch(actions.resetStartEnd());
   }
 
   return (
@@ -154,7 +151,11 @@ function SubmitPathForm({
         />
         <Box className={classes.form__content}>
           <Box className={classes.form__data_row}>
-            <TextField id="standard-basic" label="Trip Name" onChange={(e) => setFlightPlanName(e.target.value)} />
+            <TextField
+              id="standard-basic"
+              label="Trip Name"
+              onChange={(e) => setFlightPlanName(e.target.value)}
+            />
           </Box>
           <Box className={classes.form__data_row}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -173,10 +174,22 @@ function SubmitPathForm({
           >
             Preview Flight Plan
           </Button>
-          {flightPath.length ? <Button variant="contained" onClick={saveFlightPlan} color="primary">
-            Save Flight Plan
-          </Button> : <></>}
-          <Button variant="contained" onClick={resetStartAndEnd} color="primary">
+          {flightPath.length ? (
+            <Button
+              variant="contained"
+              onClick={saveFlightPlan}
+              color="primary"
+            >
+              Save Flight Plan
+            </Button>
+          ) : (
+            <></>
+          )}
+          <Button
+            variant="contained"
+            onClick={resetStartAndEnd}
+            color="primary"
+          >
             Reset Points
           </Button>
         </Box>

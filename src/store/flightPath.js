@@ -5,8 +5,8 @@ const GET_FLIGHT_PATH = "GET_FLIGHT_PATH";
 const SET_START_POINT = "SET_START_POINT";
 const SET_END_POINT = "SET_END_POINT";
 const RESET_START_END = "RESET_START_END";
-const SHOW_START = 'SHOW_START';
-const SHOW_END = 'SHOW_END';
+const SHOW_START = "SHOW_START";
+const SHOW_END = "SHOW_END";
 
 const getFlightPath = (value) => ({ type: GET_FLIGHT_PATH, value });
 
@@ -16,9 +16,9 @@ const setEndPoint = (value) => ({ type: SET_END_POINT, value });
 
 const resetStartEnd = () => ({ type: RESET_START_END });
 
-const setStart = value => ({ type: SHOW_START, value })
+const setStart = (value) => ({ type: SHOW_START, value });
 
-const setEnd = value => ({ type: SHOW_END, value })
+const setEnd = (value) => ({ type: SHOW_END, value });
 
 const updateFLightPath = (optDistance, optLandings, user, token) => {
   return async (dispatch, getState) => {
@@ -33,6 +33,7 @@ const updateFLightPath = (optDistance, optLandings, user, token) => {
       endPoint,
       opt,
     };
+    console.log(data);
 
     //some fetch request for the future
     const flightPathData = await fetch(`${api}/flightplans/pathcalc`, {
@@ -44,12 +45,6 @@ const updateFLightPath = (optDistance, optLandings, user, token) => {
       body: JSON.stringify(data),
     });
     let result = await flightPathData.json();
-    console.log(result);
-    // const flightNums = Object.keys(result);
-    // const flightPath = flightNums.map((key) => {
-    //   return { lat: parseFloat(key.lat), lon: parseFloat(key.lng) };
-    // });
-    // console.log(flightNums);
 
     dispatch(getFlightPath(result.route));
   };
@@ -100,14 +95,14 @@ function reducer(state = initialState, action) {
     case SHOW_END: {
       return {
         ...state,
-        endButtonPressed: action.value
-      }
+        endButtonPressed: action.value,
+      };
     }
     case SHOW_START: {
       return {
         ...state,
-        startButtonPressed: action.value
-      }
+        startButtonPressed: action.value,
+      };
     }
     default: {
       return state;

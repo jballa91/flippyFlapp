@@ -9,30 +9,38 @@ import FlightPlanForm from "./flightPlanForm";
 
 const useStyles = makeStyles((theme) => ({}));
 
-function SubmitPath({ startPoint, endPoint, updateFLightPath, flightPath, selectedAirplane }) {
+function SubmitPath({
+  startPoint,
+  endPoint,
+  updateFLightPath,
+  flightPath,
+  selectedAirplane,
+}) {
   return (
     <>
       {startPoint.name ? (
         <LocationInfo place={startPoint} title={"Starting Point"} />
       ) : (
-          <></>
-        )}
+        <></>
+      )}
       {endPoint.name ? (
         <LocationInfo place={endPoint} title={"Ending Point"} />
       ) : (
-          <></>
-        )}
+        <></>
+      )}
       {startPoint.name && endPoint.name && selectedAirplane.name ? (
         <SubmitPathForm
           startPoint={startPoint}
           endPoint={endPoint}
           updateFLightPath={updateFLightPath}
           flightPath={flightPath}
-          updateFLightPath={updateFLightPath}
         />
       ) : (
-          <Box>Please select an airplane, startingPoint, and endPoint to preview the flight path</Box>
-        )}
+        <Box>
+          Please select an airplane, startingPoint, and endPoint to preview the
+          flight path
+        </Box>
+      )}
     </>
   );
 }
@@ -42,7 +50,7 @@ const mapStateToProps = (state) => {
     startPoint: state.flightPath.startPoint || {},
     endPoint: state.flightPath.endPoint || {},
     flightPath: state.flightPath.flightPath || {},
-    selectedAirplane: state.airplanes.selectedAirplane || {}
+    selectedAirplane: state.airplanes.selectedAirplane || {},
   };
 };
 
