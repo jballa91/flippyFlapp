@@ -36,30 +36,35 @@ function GoogleMaps({
   setStartPoint,
   setEndPoint,
   resetStartEnd,
+  startPoint,
+  endPoint,
 }) {
   // refs
   const googleMapRef = React.createRef();
   const googleMap = useRef(null);
   const infoWindow = useRef(null);
   const Polyline = useRef(null);
+  // let startButtonPressed = false;
+  // let endButtonPressed = false;
   const addStartButton = useRef(null);
   const addEndButton = useRef(null);
 
-  let startButtonPressed = false;
-  let endButtonPressed = false;
+
   useEffect(() => {
+    // || startPoint.name || endPoint.name
     if (Polyline.current) {
       console.log('here')
       Polyline.current.setMap(null);
       // setStartPoint({});
       // setEndPoint({});
-      startButtonPressed = false;
-      endButtonPressed = false;
+      // startButtonPressed = false;
+      // endButtonPressed = false;
+
       // infoWindow.current = new window.google.maps.InfoWindow({
       //   content: '<div></div>',
       // });
-      addStartButton.current.setAttribute('style', 'display:inline-block');
-      addEndButton.current.setAttribute('style', 'display:inline-block');
+      // addStartButton.current.setAttribute('style', 'display:inline-block');
+      // addEndButton.current.setAttribute('style', 'display:inline-block');
     }
     if (flightPath.length > 0) {
       if (Polyline.current) {
@@ -67,8 +72,8 @@ function GoogleMaps({
         Polyline.current.setMap(null);
         // setStartPoint({});
         // setEndPoint({});
-        startButtonPressed = false;
-        endButtonPressed = false;
+        // startButtonPressed = false;
+        // endButtonPressed = false;
       }
       Polyline.current = new window.google.maps.Polyline({
         path: flightPath,
@@ -146,35 +151,35 @@ function GoogleMaps({
     addStartButton.current = document.createElement('button');
     addStartButton.current.innerHTML = 'Add to Start';
 
-    if (startButtonPressed) {
-      console.log('1: here')
-      addStartButton.current.setAttribute('style', 'display:none')
-    }
+    // if (startButtonPressed) {
+    //   console.log('1: here')
+    //   addStartButton.current.setAttribute('style', 'display:none')
+    // }
     addStartButton.current.addEventListener('click', () => {
       // set start coords to redux store
       console.log('Add Button Works')
       setStartPoint(airport.data)
-      addStartButton.current.setAttribute('style', 'display:none')
+      // addStartButton.current.setAttribute('style', 'display:none')
 
-      startButtonPressed = true;
-      console.log(startButtonPressed);
+      // startButtonPressed = true;
+
     })
     infoWindowDiv.appendChild(addStartButton.current);
 
     //button to add end of flight path
     addEndButton.current = document.createElement('button')
     addEndButton.current.innerHTML = 'Add to End'
-    if (endButtonPressed) {
-      console.log('2: here')
-      addEndButton.current.setAttribute('style', 'display:none')
-    }
+    // if (endButtonPressed) {
+    //   console.log('2: here')
+    //   addEndButton.current.setAttribute('style', 'display:none')
+    // }
     addEndButton.current.addEventListener('click', () => {
 
       console.log('End button works')
       setEndPoint(airport.data)
-      addEndButton.current.setAttribute('style', 'display:none')
-      endButtonPressed = true;
-      console.log(endButtonPressed)
+      // addEndButton.current.setAttribute('style', 'display:none')
+      // endButtonPressed = true;
+
     })
     infoWindowDiv.appendChild(addEndButton.current);
 
@@ -187,8 +192,7 @@ function GoogleMaps({
       resetStartEnd();
       addStartButton.current.setAttribute('style', 'display:inline-block')
       addEndButton.current.setAttribute('style', 'display:inline-block')
-      startButtonPressed = false;
-      endButtonPressed = false;
+
     })
     infoWindowDiv.appendChild(resetButton)
 
@@ -235,8 +239,6 @@ function GoogleMaps({
 
         const airport = await airportData.json();
         infoWindow.current.setContent(createDomNode(airport));
-        console.log(markerLat, markerLng);
-        console.log(airport.data);
 
         infoWindow.current.open(googleMap.current, marker);
       });
@@ -261,6 +263,10 @@ const mapStateToProps = (state) => {
   return {
     airports: state.airports.airports || [],
     flightPath: state.flightPath.flightPath || [],
+    startPoint: state.flightPath.startPoint || {},
+    endPoint: state.flightPath.endPoint || {},
+    showEnd: state.flightPath.endButtonPressed || false,
+    showStart: state.flightPath.startButtonPressed || false,
   };
 };
 
@@ -269,6 +275,8 @@ const mapDispatchToProps = (dispatch) => {
     setStartPoint: (value) =>
       dispatch(FlightPathStoreActions.setStartPoint(value)),
     setEndPoint: (value) => dispatch(FlightPathStoreActions.setEndPoint(value)),
+    setStart: (value) => dispatch(FlightPathStoreActions.setStart(value)),
+    setEnd: (value) => dispatch(FlightPathStoreActions.setEnd(value)),
     resetStartEnd: () => dispatch(FlightPathStoreActions.resetStartEnd()),
     updateAirportCoords: () => dispatch(AiportStore.updateAirportCoords()),
     updateFLightPath: () => dispatch(FlightPathStoreThunks.updateFLightPath()),

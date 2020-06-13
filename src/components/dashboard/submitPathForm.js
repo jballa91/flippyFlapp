@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth0 } from "../../flippy-flapp-spa";
 import { actions } from '../../store/flightPath';
 import {
@@ -19,7 +19,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { api } from "../../config";
 const useStyles = makeStyles((theme) => ({
   flight_plan_form_container: {
     backgroundColor: "white",
@@ -37,16 +37,21 @@ function SubmitPathForm({
   startPoint,
   endPoint,
   updateFLightPath,
-  flightPath,
   setShowForm,
 }) {
   const classes = useStyles();
   const [optimizeByDistance, setOptimizeByDistance] = useState(true);
   const [optimizeByStops, setOptimizeByStops] = useState(false);
+  const [flightPlanName, setFlightPlanName] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [showSaveFlight, setShowSaveFlight] = useState(false);
+
   const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
+  const flightPath = useSelector(
+    (state) => state.flightPath.flightPath || []
+  );
 
   function distanceOnChange() {
     setOptimizeByDistance(!optimizeByDistance);
@@ -66,15 +71,61 @@ function SubmitPathForm({
     //send dispatch to populate flight path in store
     updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     //change polyline on map
+
   }
 
   async function saveFlightPlan() {
     const token = await getTokenSilently();
-    console.log("click");
-    //check to see if flight path is in store
-    if (flightPath.length > 0) {
-      setShowForm(true);
+    const airportIds = [];
+
+    for (let i = 0; i < flightPath.length; i++) {
+      const airport = flightPath[i];
+      const airportData = await fetch(`${api}/airports/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ lat: airport.lat, lng: airport.lng }),
+      })
+
+      const { data } = await airportData.json();
+      console.log(data.id);
+      airportIds.push(data.id);
     }
+
+    console.log(airportIds);
+    const data = {
+      startYear: startDate.getFullYear(),
+      startMonth: startDate.getMonth() + 1,
+      startDay: startDate.getDate(),
+      startHour: startDate.getHours(),
+      startMinute: startDate.getMinutes(),
+      endYear: endDate.getFullYear(),
+      endMonth: endDate.getMonth() + 1,
+      endDay: endDate.getDate(),
+      endHour: endDate.getHours(),
+      endMinute: endDate.getMinutes(),
+      name: flightPlanName,
+      route: airportIds,
+      user_id: 1,
+    }
+    console.log(data);
+    console.log(flightPath);
+
+    const flightPlanData = await fetch(`${api}/flightplans/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    })
+
+    const flightPlan = await flightPlanData.json()
+    console.log(flightPlan)
+
+
+    // updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     //if yes
     // show form
     //if no
@@ -103,7 +154,7 @@ function SubmitPathForm({
         />
         <Box className={classes.form__content}>
           <Box className={classes.form__data_row}>
-            <TextField id="standard-basic" label="Trip Name" />
+            <TextField id="standard-basic" label="Trip Name" onChange={(e) => setFlightPlanName(e.target.value)} />
           </Box>
           <Box className={classes.form__data_row}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -122,9 +173,9 @@ function SubmitPathForm({
           >
             Preview Flight Plan
           </Button>
-          <Button variant="contained" onClick={saveFlightPlan} color="primary">
+          {flightPath.length ? <Button variant="contained" onClick={saveFlightPlan} color="primary">
             Save Flight Plan
-          </Button>
+          </Button> : <></>}
           <Button variant="contained" onClick={resetStartAndEnd} color="primary">
             Reset Points
           </Button>

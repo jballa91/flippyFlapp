@@ -1,9 +1,12 @@
 import { api } from "../config";
+import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 
 const GET_FLIGHT_PATH = "GET_FLIGHT_PATH";
 const SET_START_POINT = "SET_START_POINT";
 const SET_END_POINT = "SET_END_POINT";
 const RESET_START_END = "RESET_START_END";
+const SHOW_START = 'SHOW_START';
+const SHOW_END = 'SHOW_END';
 
 const getFlightPath = (value) => ({ type: GET_FLIGHT_PATH, value });
 
@@ -12,6 +15,10 @@ const setStartPoint = (value) => ({ type: SET_START_POINT, value });
 const setEndPoint = (value) => ({ type: SET_END_POINT, value });
 
 const resetStartEnd = () => ({ type: RESET_START_END });
+
+const setStart = value => ({ type: SHOW_START, value })
+
+const setEnd = value => ({ type: SHOW_END, value })
 
 const updateFLightPath = (optDistance, optLandings, user, token) => {
   return async (dispatch, getState) => {
@@ -52,13 +59,15 @@ export const actions = {
   setStartPoint,
   setEndPoint,
   resetStartEnd,
+  setStart,
+  setEnd,
 };
 
 export const thunks = {
   updateFLightPath,
 };
 
-const initialState = [];
+const initialState = { flightPath: [] };
 
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -87,6 +96,18 @@ function reducer(state = initialState, action) {
         startPoint: {},
         flightPath: {},
       };
+    }
+    case SHOW_END: {
+      return {
+        ...state,
+        endButtonPressed: action.value
+      }
+    }
+    case SHOW_START: {
+      return {
+        ...state,
+        startButtonPressed: action.value
+      }
     }
     default: {
       return state;
