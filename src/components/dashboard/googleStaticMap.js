@@ -8,7 +8,7 @@ function GoogleStaticMap({ flightPlan }) {
     if (flightPlan) {
       setCoordsForUrl(getAirportCoordUrl(flightPlan));
     }
-  });
+  }, []);
 
   const key = "AIzaSyDscju6O6knNTt9zh71EQkt7Lk1XeejhyQ";
   return (
