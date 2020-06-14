@@ -11,7 +11,6 @@ import {
   Fab,
   Divider,
   Menu,
-  MenuList,
   MenuItem,
   Backdrop,
 } from "@material-ui/core";
@@ -23,8 +22,7 @@ import GoogleMaps from "./customMap.js";
 import SubmitPath from "./submitPath";
 import AirplaneForm from "./AirplaneForm";
 import AirplaneList from "./AirplaneList";
-import FlightPlans from './flightPlans';
-import actions from "../../store/airplanes";
+import FlightPlans from "./flightPlans";
 import { thunks } from "../../store/airplanes";
 
 import { api } from "../../config";
@@ -132,7 +130,6 @@ const Dashboard = (props) => {
 
     if (res.ok) {
       const result = await res.json();
-      console.log(result);
       props.updateAirplaneList(user, token);
       handleClose2();
     }

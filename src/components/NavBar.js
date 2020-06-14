@@ -8,8 +8,6 @@ import {
   Button,
   Breadcrumbs,
 } from "@material-ui/core";
-import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import MapRoundedIcon from "@material-ui/icons/MapRounded";
 import { Link } from "react-router-dom";
 
@@ -75,12 +73,6 @@ const NavBar = () => {
         <Toolbar>
           {isAuthenticated && (
             <Breadcrumbs className={classes.bread}>
-              <Link className={classes.navlink} to="/profile">
-                <AccountBoxIcon className={classes.navicon} fontSize="small" />
-                <Typography variation="h6" className={classes.navtext}>
-                  Profile
-                </Typography>
-              </Link>
               <Link className={classes.navlink} to="/" exact>
                 <MapRoundedIcon className={classes.navicon} fontSize="small" />
                 <Typography variation="h6" className={classes.navtext}>

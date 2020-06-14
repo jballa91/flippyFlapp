@@ -11,7 +11,6 @@ import {
   FormControl,
   Input,
   InputLabel,
-  FormHelperText,
   Select,
   MenuItem,
   Button,
@@ -108,7 +107,6 @@ const AirplaneForm = (props) => {
 
     if (res.ok) {
       const result = await res.json();
-      console.log(result);
       closeForm();
     }
   };

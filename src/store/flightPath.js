@@ -1,5 +1,4 @@
 import { api } from "../config";
-import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 
 const GET_FLIGHT_PATH = "GET_FLIGHT_PATH";
 const SET_START_POINT = "SET_START_POINT";
@@ -29,14 +28,12 @@ const updateFLightPath = (optDistance, optLandings, user, token) => {
     const startPoint = getState().flightPath.startPoint;
     const endPoint = getState().flightPath.endPoint;
     const airplane = getState().airplanes.selectedAirplane;
-    console.log(airplane);
     const data = {
       airplane,
       startPoint,
       endPoint,
       opt,
     };
-    console.log(data);
 
     //some fetch request for the future
     const flightPathData = await fetch(`${api}/flightplans/pathcalc`, {
@@ -50,7 +47,6 @@ const updateFLightPath = (optDistance, optLandings, user, token) => {
     let result = await flightPathData.json();
 
     await dispatch(getFlightPath(result.route));
-    console.log("RESULTROUTE:", result.route);
 
     const flightPathObjsArray = [];
     for (let i = 0; i < result.route.length; i++) {
@@ -76,7 +72,6 @@ const updateFlightPathObjs = (token) => {
   return async (dispatch, getState) => {
     debugger;
     const flightPath = await getState().flightPath.flightPath;
-    console.log(flightPath);
     const flightPathObjsArray = flightPath.map(async (coords) => {
       const result = await fetch(`${api}/airports`, {
         method: "POST",
@@ -86,7 +81,6 @@ const updateFlightPathObjs = (token) => {
         },
         body: JSON.stringify(coords),
       });
-      console.log("THUNK:", result);
       const airport = await result.json();
       return airport.data;
     });
