@@ -41,7 +41,7 @@ const AirplaneList = () => {
       const token = await getTokenSilently();
       dispatch(thunks.updateAirplaneList(user, token));
     })();
-  });
+  }, []);
 
   return (
     <RadioGroup

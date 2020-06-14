@@ -50,7 +50,7 @@ function FlightPlans() {
       getToken();
     } else {
     }
-  });
+  }, []);
 
   return (
     <div className={classes.root}>
