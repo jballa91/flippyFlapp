@@ -7,6 +7,7 @@ const SET_END_POINT = "SET_END_POINT";
 const RESET_START_END = "RESET_START_END";
 const SHOW_START = "SHOW_START";
 const SHOW_END = "SHOW_END";
+const GET_FLIGHT_PATH_OBJS = "GET_FLIGHT_PATH_OBJS";
 
 const getFlightPath = (value) => ({ type: GET_FLIGHT_PATH, value });
 
@@ -19,6 +20,8 @@ const resetStartEnd = () => ({ type: RESET_START_END });
 const setStart = (value) => ({ type: SHOW_START, value });
 
 const setEnd = (value) => ({ type: SHOW_END, value });
+
+const getFlightPathObjs = (value) => ({ type: GET_FLIGHT_PATH_OBJS, value });
 
 const updateFLightPath = (optDistance, optLandings, user, token) => {
   return async (dispatch, getState) => {
@@ -46,7 +49,48 @@ const updateFLightPath = (optDistance, optLandings, user, token) => {
     });
     let result = await flightPathData.json();
 
-    dispatch(getFlightPath(result.route));
+    await dispatch(getFlightPath(result.route));
+    console.log("RESULTROUTE:", result.route);
+
+    const flightPathObjsArray = [];
+    for (let i = 0; i < result.route.length; i++) {
+      const coords = result.route[i];
+      const result2 = await fetch(`${api}/airports/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(coords),
+      });
+
+      const airport = await result2.json();
+
+      flightPathObjsArray.push(airport.data);
+    }
+
+    dispatch(getFlightPathObjs(flightPathObjsArray));
+  };
+};
+
+const updateFlightPathObjs = (token) => {
+  return async (dispatch, getState) => {
+    debugger;
+    const flightPath = await getState().flightPath.flightPath;
+    console.log(flightPath);
+    const flightPathObjsArray = flightPath.map(async (coords) => {
+      const result = await fetch(`${api}/airports`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(coords),
+      });
+      console.log("THUNK:", result);
+      const airport = await result.json();
+      return airport.data;
+    });
+    dispatch(getFlightPathObjs(flightPathObjsArray));
   };
 };
 
@@ -60,9 +104,10 @@ export const actions = {
 
 export const thunks = {
   updateFLightPath,
+  updateFlightPathObjs,
 };
 
-const initialState = { flightPath: [] };
+const initialState = { flightPath: [], flightPathObjs: [] };
 
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -90,6 +135,7 @@ function reducer(state = initialState, action) {
         endPoint: {},
         startPoint: {},
         flightPath: {},
+        flightPathObjs: [],
       };
     }
     case SHOW_END: {
@@ -102,6 +148,12 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         startButtonPressed: action.value,
+      };
+    }
+    case GET_FLIGHT_PATH_OBJS: {
+      return {
+        ...state,
+        flightPathObjs: action.value,
       };
     }
     default: {
