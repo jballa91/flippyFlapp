@@ -31,6 +31,25 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  form__data_row: {
+    width: "100%",
+  },
+  form__data_row_buttons: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: theme.spacing(1),
+  },
+  form: {
+    margin: theme.spacing(1),
+  },
+  form__input: {
+    width: "100%",
+    marginBottom: theme.spacing(1),
+  },
+  form__save_button: {
+    backgroundColor: theme.palette.success.light,
+  },
 }));
 
 function SubmitPathForm({
@@ -135,7 +154,7 @@ function SubmitPathForm({
   }
 
   return (
-    <Box>
+    <Box className={classes.form}>
       <FormGroup>
         <FormControlLabel
           control={
@@ -152,6 +171,7 @@ function SubmitPathForm({
         <Box className={classes.form__content}>
           <Box className={classes.form__data_row}>
             <TextField
+              className={classes.form__input}
               id="standard-basic"
               label="Trip Name"
               onChange={(e) => setFlightPlanName(e.target.value)}
@@ -159,32 +179,29 @@ function SubmitPathForm({
           </Box>
           <Box className={classes.form__data_row}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DateTimePicker value={startDate} onChange={setStartDate} />
+              <DateTimePicker
+                className={classes.form__input}
+                value={startDate}
+                onChange={setStartDate}
+              />
             </MuiPickersUtilsProvider>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DateTimePicker value={endDate} onChange={setEndDate} />
+              <DateTimePicker
+                className={classes.form__input}
+                value={endDate}
+                onChange={setEndDate}
+              />
             </MuiPickersUtilsProvider>
           </Box>
         </Box>
-        <Box>
+        <Box className={classes.form__data_row_buttons}>
           <Button
             variant="contained"
             onClick={previewFlightPlan}
             color="secondary"
           >
-            Preview Flight Plan
+            Preview Plan
           </Button>
-          {flightPath.length ? (
-            <Button
-              variant="contained"
-              onClick={saveFlightPlan}
-              color="primary"
-            >
-              Save Flight Plan
-            </Button>
-          ) : (
-            <></>
-          )}
           <Button
             variant="contained"
             onClick={resetStartAndEnd}
@@ -193,6 +210,17 @@ function SubmitPathForm({
             Reset Points
           </Button>
         </Box>
+        {flightPath.length ? (
+          <Button
+            className={classes.form__save_button}
+            variant="contained"
+            onClick={saveFlightPlan}
+          >
+            Save Flight Plan
+          </Button>
+        ) : (
+          <></>
+        )}
       </FormGroup>
     </Box>
   );
