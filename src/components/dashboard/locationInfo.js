@@ -63,7 +63,7 @@ function LocationInfo({ place, title }) {
         </Box>
         <Box className={classes.location_info__data_row_b}>
           <Typography>Location</Typography>
-          <Typography>{` ${place.city}, ${place.state}`}</Typography>
+          <Typography>{`${place.city}, ${place.state}`}</Typography>
         </Box>
       </Box>
       {/* <Box className={classes.location_info__data_row}>
