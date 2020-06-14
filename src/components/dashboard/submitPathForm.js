@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "../../flippy-flapp-spa";
-import { actions } from "../../store/flightPath";
+import { actions, thunks } from "../../store/flightPath";
 import {
   Box,
   Button,
@@ -73,6 +73,9 @@ function SubmitPathForm({
   const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
   const flightPath = useSelector((state) => state.flightPath.flightPath || []);
+  const flightPathObjs = useSelector(
+    (state) => state.flightPath.flightPathObjs || []
+  );
 
   function distanceOnChange() {
     setOptimizeByDistance(!optimizeByDistance);
@@ -91,6 +94,8 @@ function SubmitPathForm({
 
     //send dispatch to populate flight path in store
     updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
+    thunks.updateFlightPathObjs(token);
+    console.log("FLIGHTPATHOBJS:", flightPathObjs);
     //change polyline on map
   }
 
@@ -162,6 +167,7 @@ function SubmitPathForm({
   }
 
   function resetStartAndEnd() {
+    // dispatch(actions.resetFlightPathObjs())
     dispatch(actions.resetStartEnd());
   }
 
