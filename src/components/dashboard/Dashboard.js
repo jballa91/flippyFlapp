@@ -23,7 +23,7 @@ import GoogleMaps from "./customMap.js";
 import SubmitPath from "./submitPath";
 import AirplaneForm from "./AirplaneForm";
 import AirplaneList from "./AirplaneList";
-
+import FlightPlans from './flightPlans';
 import actions from "../../store/airplanes";
 import { thunks } from "../../store/airplanes";
 
@@ -157,7 +157,7 @@ const Dashboard = (props) => {
             <Divider dark />
             <ExpansionPanelDetails className={classes.details}>
               <>
-                <Typography>Put the list of flight plans here</Typography>
+                <FlightPlans></FlightPlans>
               </>
               <div className={classes.fab_container}>
                 <Fab
