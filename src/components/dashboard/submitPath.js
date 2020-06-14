@@ -7,7 +7,11 @@ import LocationInfo from "./locationInfo";
 import { thunks as FlightPathStoreThunks } from "../../store/flightPath";
 import FlightPlanForm from "./flightPlanForm";
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  points_info: {
+    margin: theme.spacing(3),
+  },
+}));
 
 function SubmitPath({
   startPoint,
@@ -16,15 +20,20 @@ function SubmitPath({
   flightPath,
   selectedAirplane,
 }) {
+  const classes = useStyles();
   return (
-    <>
+    <Box className={classes.points_info}>
       {startPoint.name ? (
         <LocationInfo place={startPoint} title={"Starting Point"} />
       ) : (
         <></>
       )}
       {endPoint.name ? (
-        <LocationInfo place={endPoint} title={"Ending Point"} />
+        <LocationInfo
+          className={classes.location_info}
+          place={endPoint}
+          title={"Ending Point"}
+        />
       ) : (
         <></>
       )}
@@ -36,12 +45,12 @@ function SubmitPath({
           flightPath={flightPath}
         />
       ) : (
-        <Box>
+        <Box className={classes.points_info}>
           Please select an airplane, startingPoint, and endPoint to preview the
           flight path
         </Box>
       )}
-    </>
+    </Box>
   );
 }
 
