@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "../../flippy-flapp-spa";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { RadioGroup, Radio, Typography, Divider } from "@material-ui/core";
+import { RadioGroup, Radio, Typography } from "@material-ui/core";
 
 import { actions } from "../../store/airplanes";
 import { thunks } from "../../store/airplanes";
@@ -28,14 +28,10 @@ const AirplaneList = () => {
 
   // array.find((airplane) => return airplane.id === e.target.value) ### if the value is an id
   const handleCheckAirplane = (e) => {
-    console.log(e.target.value);
-
     setCheckedPlane(e.target.value);
     const theAirplane = airplaneList.find((airplane) => {
-      console.log(airplane.id);
       return airplane.id === parseInt(e.target.value);
     });
-    console.log(theAirplane);
 
     dispatch(actions.setSelectedAirplane(theAirplane));
   };
@@ -45,7 +41,7 @@ const AirplaneList = () => {
       const token = await getTokenSilently();
       dispatch(thunks.updateAirplaneList(user, token));
     })();
-  }, []);
+  });
 
   return (
     <RadioGroup

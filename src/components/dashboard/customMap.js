@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { thunks as AiportStore } from "../../store/airports";
 import {
@@ -52,7 +52,6 @@ function GoogleMaps({
   useEffect(() => {
     // || startPoint.name || endPoint.name
     if (Polyline.current) {
-      console.log("here");
       Polyline.current.setMap(null);
       // setStartPoint({});
       // setEndPoint({});
@@ -67,7 +66,6 @@ function GoogleMaps({
     }
     if (flightPath.length > 0) {
       if (Polyline.current) {
-        console.log("here");
         Polyline.current.setMap(null);
         // setStartPoint({});
         // setEndPoint({});
@@ -81,14 +79,11 @@ function GoogleMaps({
         strokeOpacity: 1.0,
         strokeWeight: 2,
       });
-      console.log();
       Polyline.current.setMap(googleMap.current);
     }
   }, [JSON.stringify(flightPath)]);
 
   useEffect(() => {
-    console.log(airports.length);
-
     if (airports.length > 0) {
       createMarker();
     } else if (airports.length == 0) {
@@ -158,13 +153,8 @@ function GoogleMaps({
     addStartButton.current = document.createElement("button");
     addStartButton.current.innerHTML = "Add to Start";
 
-    // if (startButtonPressed) {
-    //   console.log('1: here')
-    //   addStartButton.current.setAttribute('style', 'display:none')
-    // }
     addStartButton.current.addEventListener("click", () => {
       // set start coords to redux store
-      console.log("Add Button Works");
       setStartPoint(airport.data);
       // addStartButton.current.setAttribute('style', 'display:none')
 
@@ -175,12 +165,8 @@ function GoogleMaps({
     //button to add end of flight path
     addEndButton.current = document.createElement("button");
     addEndButton.current.innerHTML = "Add to End";
-    // if (endButtonPressed) {
-    //   console.log('2: here')
-    //   addEndButton.current.setAttribute('style', 'display:none')
-    // }
+
     addEndButton.current.addEventListener("click", () => {
-      console.log("End button works");
       setEndPoint(airport.data);
       // addEndButton.current.setAttribute('style', 'display:none')
       // endButtonPressed = true;
@@ -192,7 +178,6 @@ function GoogleMaps({
     resetButton.innerHTML = "Reset Start and End";
     resetButton.addEventListener("click", () => {
       //reset coords in redux store
-      console.log("reset button works");
       resetStartEnd();
       addStartButton.current.setAttribute("style", "display:inline-block");
       addEndButton.current.setAttribute("style", "display:inline-block");
@@ -249,7 +234,7 @@ function GoogleMaps({
       return marker;
     });
 
-    var markerCluster = new window.MarkerClusterer(googleMap.current, markers, {
+    new window.MarkerClusterer(googleMap.current, markers, {
       imagePath:
         "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
     });
