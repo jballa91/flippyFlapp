@@ -20,6 +20,9 @@ import {
 } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import { api } from "../../config";
+import { thunks } from '../../store/flightPlans';
+import Errors from './errors';
+
 const useStyles = makeStyles((theme) => ({
   flight_plan_form_container: {
     backgroundColor: "white",
@@ -65,6 +68,7 @@ function SubmitPathForm({
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showSaveFlight, setShowSaveFlight] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
@@ -111,7 +115,6 @@ function SubmitPathForm({
       });
 
       const { data } = await airportData.json();
-      console.log(data.id);
       airportIds.push(data.id);
     }
 
@@ -134,6 +137,7 @@ function SubmitPathForm({
     console.log(data);
     console.log(flightPath);
 
+
     const flightPlanData = await fetch(`${api}/flightplans/`, {
       method: "POST",
       headers: {
@@ -144,7 +148,15 @@ function SubmitPathForm({
     });
 
     const flightPlan = await flightPlanData.json();
+    if (!flightPlan.errors) {
+      dispatch(thunks.updateFLightPlans(user, token))
+    } else {
+      console.log('errors are set')
+      setErrors(flightPlan.errors)
+    }
+
     console.log(flightPlan);
+
 
     // updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     //if yes
@@ -161,6 +173,7 @@ function SubmitPathForm({
 
   return (
     <Box className={classes.form}>
+      {errors ? <Errors errors={errors} /> : <></>}
       <FormGroup>
         <FormControlLabel
           control={
@@ -177,6 +190,7 @@ function SubmitPathForm({
         <Box className={classes.form__content}>
           <Box className={classes.form__data_row}>
             <TextField
+              required
               className={classes.form__input}
               id="standard-basic"
               label="Trip Name"
@@ -225,8 +239,8 @@ function SubmitPathForm({
             Save Flight Plan
           </Button>
         ) : (
-          <></>
-        )}
+            <></>
+          )}
       </FormGroup>
     </Box>
   );

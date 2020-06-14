@@ -1,21 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { api } from "../../config";
+import { useDispatch, useSelector } from "react-redux";
 function GoogleStaticMap({ flightPlan }) {
-    const [coordsForUrl, setCoordsForUrl] = useState('');
-    async function getAirportCoordUrl(flightPath) {
-        const airportCoords = '';
-        for (let i = 0; i < flightPath.length; i++) {
-            const airportId = flightPath.route[i];
-
-            const airportData = await fetch(`${api}//airports/${airportId}`);
-            const { data } = await airportData.json();
-
-            airportCoords += `|${data.lat},${data.lon}`
-
-
-        }
-        return airportCoords;
-    }
+    const flightPath = useSelector((state) => state.flightPath.flightPath || []);
 
     useEffect(() => {
         console.log('use effect ran')
