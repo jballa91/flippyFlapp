@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "../../flippy-flapp-spa";
 import { thunks } from '../../store/flightPlans';
 import { api } from "../../config";
-import GoogleStaticMap from './googleStaticMap';
+// import GoogleStaticMap from './googleStaticMap';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,7 +31,10 @@ function FlightPlans() {
     const flightPlans = useSelector(
         (state) => state.flightPlans.flightPlans || []
     );
-
+    const coordsUrlArr = useSelector(
+        (state) => state.flightPlans.flightPathArr || []
+    );
+    const key = "AIzaSyDscju6O6knNTt9zh71EQkt7Lk1XeejhyQ";
 
     async function getToken() {
         const token = await getTokenSilently()
@@ -67,10 +70,11 @@ function FlightPlans() {
     return (
         <div className={classes.root}>
             <GridList cellHeight={180} className={classes.gridList}>
-                {flightPlans.map(flightPlan => {
+                {flightPlans.map((flightPlan, i) => {
                     return (
                         <GridListTile key={flightPlan.id}>
-                            <GoogleStaticMap />
+
+                            <img src={`http://maps.google.com/maps/api/staticmap?size=220x180&path=color:0xff0000ff|weight:5${coordsUrlArr[i]}&markers=color%3ablue|label%3aS${coordsUrlArr[i]}&sensor=false&key=${key}`} alt={'Google Map'} />
                             <GridListTileBar
                                 title={flightPlan.name}
                                 subtitle={<span>by: {flightPlan.user_id}</span>}
