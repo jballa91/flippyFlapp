@@ -20,7 +20,6 @@ import {
 } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import { api } from "../../config";
-import { thunks } from '../../store/flightPlans';
 import Errors from './errors';
 
 const useStyles = makeStyles((theme) => ({
