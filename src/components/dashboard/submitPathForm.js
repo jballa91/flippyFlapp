@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "../../flippy-flapp-spa";
 import { actions, thunks } from "../../store/flightPath";
+import { thunks as flightPlanThunks } from '../../store/flightPlans'
 import {
   Box,
   Button,
@@ -130,7 +131,7 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
 
     const flightPlan = await flightPlanData.json();
     if (!flightPlan.errors) {
-      dispatch(thunks.updateFLightPlans(user, token));
+      dispatch(flightPlanThunks.updateFLightPlans(user, token));
     } else {
       setErrors(flightPlan.errors);
     }
@@ -216,8 +217,8 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
             Save Flight Plan
           </Button>
         ) : (
-          <></>
-        )}
+            <></>
+          )}
       </FormGroup>
     </Box>
   );
