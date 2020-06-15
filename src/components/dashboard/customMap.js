@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { thunks as AiportStore } from "../../store/airports";
+import { api } from "../../config";
 import {
   thunks as FlightPathStoreThunks,
   actions as FlightPathStoreActions,
@@ -217,7 +218,7 @@ function GoogleMaps({
         const markerLng = e.latLng.lng();
 
         const data = { lat: markerLat, lng: markerLng };
-        const airportData = await fetch("http://localhost:5000/airports/", {
+        const airportData = await fetch(`${api}/airports/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
