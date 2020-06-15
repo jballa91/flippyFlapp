@@ -14,11 +14,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import { api } from "../../config";
-<<<<<<< HEAD
-import Errors from './errors';
-=======
 import Errors from "./errors";
->>>>>>> master
 
 const useStyles = makeStyles((theme) => ({
   flight_plan_form_container: {
@@ -220,8 +216,8 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
             Save Flight Plan
           </Button>
         ) : (
-          <></>
-        )}
+            <></>
+          )}
       </FormGroup>
     </Box>
   );
