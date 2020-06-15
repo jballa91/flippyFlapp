@@ -52,7 +52,6 @@ export const Auth0Provider = ({
           }),
         });
         const result = await res.json();
-        console.log(result);
         const id = result.id;
         user = { ...user, id };
         setUser(user);

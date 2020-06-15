@@ -18,8 +18,6 @@ const initialAirplane = { airplaneList: [] };
 
 const updateAirplaneList = (user, token) => {
   return async (dispatch, getState) => {
-    console.log(token);
-
     const res = await fetch(`${api}/users/${user.id}/airplanes`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,7 +26,6 @@ const updateAirplaneList = (user, token) => {
 
     if (res.ok) {
       const airplaneList = await res.json();
-      console.log(airplaneList);
 
       dispatch(setAirplaneList(airplaneList));
     } else {

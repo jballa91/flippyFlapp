@@ -8,19 +8,17 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
-  Modal,
   TextField,
 } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  DatePicker,
-  TimePicker,
-  DateTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import { api } from "../../config";
+<<<<<<< HEAD
 import Errors from './errors';
+=======
+import Errors from "./errors";
+>>>>>>> master
 
 const useStyles = makeStyles((theme) => ({
   flight_plan_form_container: {
@@ -54,19 +52,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SubmitPathForm({
-  startPoint,
-  endPoint,
-  updateFLightPath,
-  setShowForm,
-}) {
+function SubmitPathForm({ updateFLightPath, setShowForm }) {
   const classes = useStyles();
   const [optimizeByDistance, setOptimizeByDistance] = useState(true);
   const [optimizeByStops, setOptimizeByStops] = useState(false);
   const [flightPlanName, setFlightPlanName] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [showSaveFlight, setShowSaveFlight] = useState(false);
   const [errors, setErrors] = useState([]);
 
   const dispatch = useDispatch();
@@ -88,13 +80,11 @@ function SubmitPathForm({
 
   async function previewFlightPlan() {
     const token = await getTokenSilently();
-    console.log("click");
     //get start/end from props
 
     //send dispatch to populate flight path in store
     updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     thunks.updateFlightPathObjs(token);
-    console.log("FLIGHTPATHOBJS:", flightPathObjs);
     //change polyline on map
   }
 
@@ -117,7 +107,6 @@ function SubmitPathForm({
       airportIds.push(data.id);
     }
 
-    console.log(airportIds);
     const data = {
       startYear: startDate.getFullYear(),
       startMonth: startDate.getMonth() + 1,
@@ -133,9 +122,6 @@ function SubmitPathForm({
       route: airportIds,
       user_id: user.id,
     };
-    console.log(data);
-    console.log(flightPath);
-
 
     const flightPlanData = await fetch(`${api}/flightplans/`, {
       method: "POST",
@@ -148,14 +134,10 @@ function SubmitPathForm({
 
     const flightPlan = await flightPlanData.json();
     if (!flightPlan.errors) {
-      dispatch(thunks.updateFLightPlans(user, token))
+      dispatch(thunks.updateFLightPlans(user, token));
     } else {
-      console.log('errors are set')
-      setErrors(flightPlan.errors)
+      setErrors(flightPlan.errors);
     }
-
-    console.log(flightPlan);
-
 
     // updateFLightPath(optimizeByDistance, optimizeByStops, user, token);
     //if yes
@@ -238,8 +220,8 @@ function SubmitPathForm({
             Save Flight Plan
           </Button>
         ) : (
-            <></>
-          )}
+          <></>
+        )}
       </FormGroup>
     </Box>
   );

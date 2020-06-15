@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography, FormHelperText } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
+import {
+  Timeline,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+} from "@material-ui/lab";
 import SubmitPathForm from "./submitPathForm";
 import LocationInfo from "./locationInfo";
 import { thunks as FlightPathStoreThunks } from "../../store/flightPath";
-import FlightPlanForm from "./flightPlanForm";
 
 import LocalGasStationRoundedIcon from "@material-ui/icons/LocalGasStationRounded";
 
@@ -40,6 +47,18 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  timeline: {
+    justifyContent: "left",
+    paddingLeft: "0px",
+  },
+  timeline_item: {
+    "&&::before": {
+      display: "none",
+    },
+  },
+  info_text: {
+    fontSize: "12px",
+  },
 }));
 
 function SubmitPath({
@@ -59,44 +78,69 @@ function SubmitPath({
       ) : (
         <></>
       )}
-      {flightPathObjs.length > 2 ? (
-        flightPathObjs.map((point, i) => (
-          <Box className={classes.waypoint_info} key={i}>
-            {i !== 0 && i !== flightPathObjs.length - 1 ? (
-              () => (
-                <Box className={classes.waypoint_info_container}>
-                  <Box className={classes.waypoint_info__title}>
-                    <Typography variant="h6">Waypoint {i}</Typography>
-                    <LocalGasStationRoundedIcon />
+      <Timeline classname={classes.timeline}>
+        {flightPathObjs.length > 2 ? (
+          flightPathObjs.map((point, i) =>
+            i !== 0 && i !== flightPathObjs.length - 1 ? (
+              <TimelineItem className={classes.timeline_item}>
+                <TimelineSeparator>
+                  <TimelineDot>
+                    <LocalGasStationRoundedIcon fontSize="small" />
+                  </TimelineDot>
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  <Box className={classes.waypoint_info_container}>
+                    <Box className={classes.waypoint_info__title}>
+                      <Typography variant="h6">Waypoint {i}</Typography>
+                    </Box>
+                    <Box className={classes.waypoint_info__table}>
+                      <Box className={classes.waypoint_info__data_row_a}>
+                        <Typography className={classes.info_text}>
+                          Name
+                        </Typography>
+                        <Typography className={classes.info_text}>
+                          {point.name}
+                        </Typography>
+                      </Box>
+                      <Box className={classes.waypoint_info__data_row_b}>
+                        <Typography className={classes.info_text}>
+                          Latitude
+                        </Typography>
+                        <Typography className={classes.info_text}>
+                          {point.lat}
+                        </Typography>
+                      </Box>
+                      <Box className={classes.waypoint_info__data_row_a}>
+                        <Typography className={classes.info_text}>
+                          Longitude
+                        </Typography>
+                        <Typography className={classes.info_text}>
+                          {point.lon}
+                        </Typography>
+                      </Box>
+                      <Box className={classes.waypoint_info__data_row_b}>
+                        <Typography className={classes.info_text}>
+                          Location
+                        </Typography>
+                        <Typography
+                          className={classes.info_text}
+                        >{`${point.city}, ${point.state}`}</Typography>
+                      </Box>
+                    </Box>
                   </Box>
-                  <Box className={classes.waypoint_info__table}>
-                    <Box className={classes.waypoint_info__data_row_a}>
-                      <Typography>Name</Typography>
-                      <Typography>{point.name}</Typography>
-                    </Box>
-                    <Box className={classes.waypoint_info__data_row_b}>
-                      <Typography>Latitude</Typography>
-                      <Typography>{point.lat}</Typography>
-                    </Box>
-                    <Box className={classes.waypoint_info__data_row_a}>
-                      <Typography>Longitude</Typography>
-                      <Typography>{point.lon}</Typography>
-                    </Box>
-                    <Box className={classes.waypoint_info__data_row_b}>
-                      <Typography>Location</Typography>
-                      <Typography>{`${point.city}, ${point.state}`}</Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              )
+                </TimelineContent>
+              </TimelineItem>
             ) : (
-              <></>
-            )}
-          </Box>
-        ))
-      ) : (
-        <></>
-      )}
+              <TimelineSeparator>
+                <TimelineConnector />
+              </TimelineSeparator>
+            )
+          )
+        ) : (
+          <></>
+        )}
+      </Timeline>
       {endPoint.name ? (
         <LocationInfo
           className={classes.location_info}
