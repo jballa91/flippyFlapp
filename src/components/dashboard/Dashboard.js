@@ -129,7 +129,7 @@ const Dashboard = (props) => {
     });
 
     if (res.ok) {
-      const result = await res.json();
+      // const result = await res.json();
       props.updateAirplaneList(user, token);
       handleClose2();
     }

@@ -61,9 +61,9 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
   const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
   const flightPath = useSelector((state) => state.flightPath.flightPath || []);
-  const flightPathObjs = useSelector(
-    (state) => state.flightPath.flightPathObjs || []
-  );
+  // const flightPathObjs = useSelector(
+  //   (state) => state.flightPath.flightPathObjs || []
+  // );
 
   function distanceOnChange() {
     setOptimizeByDistance(!optimizeByDistance);
