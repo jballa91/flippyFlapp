@@ -132,6 +132,7 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
     const flightPlan = await flightPlanData.json();
     if (!flightPlan.errors) {
       dispatch(flightPlanThunks.updateFLightPlans(user, token));
+      dispatch(actions.resetStartEnd())
     } else {
       setErrors(flightPlan.errors);
     }
