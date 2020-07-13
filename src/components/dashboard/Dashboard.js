@@ -151,7 +151,7 @@ const Dashboard = (props) => {
               <RoomIcon className={classes.menuIcon} />
               <Typography>Flight Plans</Typography>
             </ExpansionPanelSummary>
-            <Divider dark />
+            <Divider dark='true' />
             <ExpansionPanelDetails className={classes.details}>
               <>
                 <FlightPlans></FlightPlans>
@@ -192,7 +192,7 @@ const Dashboard = (props) => {
               <FlightIcon className={classes.menuIcon} />
               <Typography>Hangar</Typography>
             </ExpansionPanelSummary>
-            <Divider dark />
+            <Divider dark='true' />
             <ExpansionPanelDetails className={classes.details}>
               <AirplaneList />
               <div className={classes.fab_container}>
