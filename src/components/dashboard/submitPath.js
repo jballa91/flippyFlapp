@@ -76,9 +76,9 @@ function SubmitPath({
       {startPoint.name ? (
         <LocationInfo place={startPoint} title={"Starting Point"} />
       ) : (
-        <></>
-      )}
-      <Timeline classname={classes.timeline}>
+          <></>
+        )}
+      <Timeline className={classes.timeline}>
         {flightPathObjs.length > 2 ? (
           flightPathObjs.map((point, i) =>
             i !== 0 && i !== flightPathObjs.length - 1 ? (
@@ -132,14 +132,14 @@ function SubmitPath({
                 </TimelineContent>
               </TimelineItem>
             ) : (
-              <TimelineSeparator>
-                <TimelineConnector />
-              </TimelineSeparator>
-            )
+                <TimelineSeparator>
+                  <TimelineConnector />
+                </TimelineSeparator>
+              )
           )
         ) : (
-          <></>
-        )}
+            <></>
+          )}
       </Timeline>
       {endPoint.name ? (
         <LocationInfo
@@ -148,8 +148,8 @@ function SubmitPath({
           title={"Ending Point"}
         />
       ) : (
-        <></>
-      )}
+          <></>
+        )}
       {startPoint.name && endPoint.name && selectedAirplane.name ? (
         <SubmitPathForm
           startPoint={startPoint}
@@ -158,11 +158,11 @@ function SubmitPath({
           flightPath={flightPath}
         />
       ) : (
-        <Box className={classes.points_info}>
-          Please select an airplane, startingPoint, and endPoint to preview the
-          flight path
-        </Box>
-      )}
+          <Box className={classes.points_info}>
+            Please select an airplane, startingPoint, and endPoint to preview the
+            flight path
+          </Box>
+        )}
     </Box>
   );
 }

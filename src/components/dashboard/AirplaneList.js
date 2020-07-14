@@ -51,14 +51,14 @@ const AirplaneList = () => {
     >
       {airplaneList.map((airplane, i) => {
         return (
-          <div className={classes.radio}>
+          <div key={airplane.id} className={classes.radio}>
             <Typography>{airplane.name}</Typography>
             <Radio
               checked={checkedPlane == airplane.id}
               label={airplane.name}
               value={airplane.id}
               inputProps={{ "aria-label": "select plane" }}
-              divider
+              divider='true'
             />
           </div>
         );

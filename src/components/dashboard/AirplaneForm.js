@@ -106,7 +106,7 @@ const AirplaneForm = (props) => {
     });
 
     if (res.ok) {
-      const result = await res.json();
+      // const result = await res.json();
       closeForm();
     }
   };
