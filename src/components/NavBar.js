@@ -73,7 +73,7 @@ const NavBar = () => {
         <Toolbar>
           {isAuthenticated && (
             <Breadcrumbs className={classes.bread}>
-              <Link className={classes.navlink} to="/" exact>
+              <Link className={classes.navlink} to="/" exact='true'>
                 <MapRoundedIcon className={classes.navicon} fontSize="small" />
                 <Typography variation="h6" className={classes.navtext}>
                   Dashboard

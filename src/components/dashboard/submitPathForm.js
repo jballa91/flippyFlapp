@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "../../flippy-flapp-spa";
 import { actions, thunks } from "../../store/flightPath";
+import { thunks as flightPlanThunks } from '../../store/flightPlans'
 import {
   Box,
   Button,
@@ -60,9 +61,9 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
   const dispatch = useDispatch();
   const { user, getTokenSilently } = useAuth0();
   const flightPath = useSelector((state) => state.flightPath.flightPath || []);
-  const flightPathObjs = useSelector(
-    (state) => state.flightPath.flightPathObjs || []
-  );
+  // const flightPathObjs = useSelector(
+  //   (state) => state.flightPath.flightPathObjs || []
+  // );
 
   function distanceOnChange() {
     setOptimizeByDistance(!optimizeByDistance);
@@ -130,7 +131,8 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
 
     const flightPlan = await flightPlanData.json();
     if (!flightPlan.errors) {
-      dispatch(thunks.updateFLightPlans(user, token));
+      dispatch(flightPlanThunks.updateFLightPlans(user, token));
+      dispatch(actions.resetStartEnd())
     } else {
       setErrors(flightPlan.errors);
     }
@@ -216,8 +218,8 @@ function SubmitPathForm({ updateFLightPath, setShowForm }) {
             Save Flight Plan
           </Button>
         ) : (
-          <></>
-        )}
+            <></>
+          )}
       </FormGroup>
     </Box>
   );
