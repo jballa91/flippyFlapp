@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { thunks as AiportStore } from "../../store/airports";
 import { api } from "../../config";
@@ -50,40 +50,7 @@ function GoogleMaps({
   // let endButtonPressed = false;
   const addStartButton = useRef(null);
   const addEndButton = useRef(null);
-
-  useEffect(() => {
-    // || startPoint.name || endPoint.name
-    if (Polyline.current) {
-      Polyline.current.setMap(null);
-      // setStartPoint({});
-      // setEndPoint({});
-      // startButtonPressed = false;
-      // endButtonPressed = false;
-
-      // infoWindow.current = new window.google.maps.InfoWindow({
-      //   content: '<div></div>',
-      // });
-      // addStartButton.current.setAttribute('style', 'display:inline-block');
-      // addEndButton.current.setAttribute('style', 'display:inline-block');
-    }
-    if (flightPath.length > 0) {
-      if (Polyline.current) {
-        Polyline.current.setMap(null);
-        // setStartPoint({});
-        // setEndPoint({});
-        // startButtonPressed = false;
-        // endButtonPressed = false;
-      }
-      Polyline.current = new window.google.maps.Polyline({
-        path: flightPath,
-        geodesic: true,
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-      });
-      Polyline.current.setMap(googleMap.current);
-    }
-  }, [JSON.stringify(flightPath)]);
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -106,8 +73,44 @@ function GoogleMaps({
           getAirportCoords();
         });
       }
+      if (Polyline.current) {
+        Polyline.current.setMap(null);
+        // setStartPoint({});
+        // setEndPoint({});
+        // startButtonPressed = false;
+        // endButtonPressed = false;
+  
+        // infoWindow.current = new window.google.maps.InfoWindow({
+        //   content: '<div></div>',
+        // });
+        // addStartButton.current.setAttribute('style', 'display:inline-block');
+        // addEndButton.current.setAttribute('style', 'display:inline-block');
+      }
+      if (flightPath.length > 0) {
+        if (Polyline.current) {
+          Polyline.current.setMap(null);
+          // setStartPoint({});
+          // setEndPoint({});
+          // startButtonPressed = false;
+          // endButtonPressed = false;
+        }
+        Polyline.current = new window.google.maps.Polyline({
+          path: flightPath,
+          geodesic: true,
+          strokeColor: "#FF0000",
+          strokeOpacity: 1.0,
+          strokeWeight: 2,
+        });
+        Polyline.current.setMap(googleMap.current);
+      }
     })();
-  }, [JSON.stringify(airports)]);
+    setIsLoaded(true);
+    // || startPoint.name || endPoint.name
+  }, [JSON.stringify(flightPath), JSON.stringify(airports)]);
+
+  // useEffect(() => {
+    
+  // }, []);
   // helper functions
   function createDomNode(airport) {
     //div containing all info in the popup
@@ -248,7 +251,12 @@ function GoogleMaps({
     updateAirportCoords();
     // updateFlightPath();
   }
-  return <div id="google-map" ref={googleMapRef} style={mapStyles} />;
+  if (!isLoaded) {
+    return null;
+  }
+  return (
+  <div id="google-map" ref={googleMapRef} style={mapStyles} />
+  );
 }
 
 const mapStateToProps = (state) => {
