@@ -248,7 +248,7 @@ function GoogleMaps({
     updateAirportCoords();
     // updateFlightPath();
   }
-  return <div id="google-map" ref={googleMapRef.current} style={mapStyles} />;
+  return <div id="google-map" ref={googleMapRef} style={mapStyles} />;
 }
 
 const mapStateToProps = (state) => {
