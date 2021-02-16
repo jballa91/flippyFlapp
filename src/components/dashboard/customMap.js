@@ -13,15 +13,15 @@ let myLocation = {};
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function (position) {
     myLocation = {
-      lat: parseFloat(position.coords.latitude),
-      lng: parseFloat(position.coords.longitude),
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
     };
   });
 } else {
   myLocation = {
     // CN Tower Landmark
-    lat: parseFloat(32.755489),
-    lng: parseFloat(-97.330765),
+    lat: 32.755489,
+    lng: -97.330765,
   };
 }
 // styles
@@ -90,7 +90,7 @@ function GoogleMaps({
         createMarker();
       } else if (airports.length == 0) {
         const googleMapScript = document.createElement("script");
-        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${key}`;
+        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
         googleMapScript.async = true;
         window.document.body.appendChild(googleMapScript);
   
@@ -195,8 +195,8 @@ function GoogleMaps({
     await new window.google.maps.Map(googleMapRef.current, {
       zoom: 14,
       center: {
-        lat: parseFloat(myLocation.lat),
-        lng: parseFloat(myLocation.lng),
+        lat: myLocation.lat,
+        lng: myLocation.lng,
       },
     });
 
