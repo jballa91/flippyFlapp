@@ -99,7 +99,7 @@ function GoogleMaps({
           "https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js";
         window.document.body.appendChild(clustererScript);
   
-        googleMapScript.addEventListener("load", () => {
+        googleMapScript.addEventListener("load", async () => {
           googleMap.current = await createGoogleMap();
   
           getAirportCoords();
