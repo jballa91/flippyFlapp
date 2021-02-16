@@ -13,8 +13,8 @@ let myLocation = {};
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function (position) {
     myLocation = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude,
+      lat: parseFloat(position.coords.latitude),
+      lng: parseFloat(position.coords.longitude),
     };
   });
 } else {
@@ -118,8 +118,8 @@ function GoogleMaps({
             <div><b>location:</b> ${airport.data.city}, ${
       airport.data.state
     }</div>
-            <div><b>lat, lng:</b> (${airport.data.lat}, ${
-      airport.data.lon
+            <div><b>lat, lng:</b> ${parseFloat(airport.data.lat)}, ${
+      parseFloat(airport.data.lon)
     })</div>
         </div>
 
@@ -192,8 +192,8 @@ function GoogleMaps({
     new window.google.maps.Map(googleMapRef.current, {
       zoom: 14,
       center: {
-        lat: myLocation.lat,
-        lng: myLocation.lng,
+        lat: parseFloat(myLocation.lat),
+        lng: parseFloat(myLocation.lng),
       },
     });
 
@@ -217,7 +217,7 @@ function GoogleMaps({
         const markerLat = e.latLng.lat();
         const markerLng = e.latLng.lng();
 
-        const data = { lat: markerLat, lng: markerLng };
+        const data = { lat: parseFloat(markerLat), lng: parseFloat(markerLng) };
         const airportData = await fetch(`${api}/airports/`, {
           method: "POST",
           headers: {
