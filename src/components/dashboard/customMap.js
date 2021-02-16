@@ -91,6 +91,7 @@ function GoogleMaps({
       } else if (airports.length == 0) {
         const googleMapScript = document.createElement("script");
         googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
+        googleMapScript.async = true;
         window.document.body.appendChild(googleMapScript);
   
         //clusterer add on
