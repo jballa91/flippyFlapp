@@ -204,7 +204,7 @@ function GoogleMaps({
       content: "<div></div>",
     });
     // create markers
-    let markers = airports.map((airport) => {
+    let markers = airports.map(async (airport) => {
       let marker = await new window.google.maps.Marker({
         position: {
           lat: parseFloat(airport.lat),
