@@ -11,7 +11,7 @@ import "./mapInfoWindow.css";
 let key = "AIzaSyDscju6O6knNTt9zh71EQkt7Lk1XeejhyQ";
 let myLocation = {};
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function (position) {
+  navigator.geolocation.getCurrentPosition(async function (position) {
     myLocation = {
       lat: parseFloat(position.coords.latitude),
       lng: parseFloat(position.coords.longitude),
@@ -42,6 +42,7 @@ function GoogleMaps({
 }) {
   // refs
   const googleMapRef = React.createRef();
+  console.log(googleMapRef)
   const googleMap = useRef(null);
   const infoWindow = useRef(null);
   const Polyline = useRef(null);
@@ -247,7 +248,7 @@ function GoogleMaps({
     updateAirportCoords();
     // updateFlightPath();
   }
-  return <div id="google-map" ref={googleMapRef} style={mapStyles} />;
+  return <div id="google-map" ref={googleMapRef.current} style={mapStyles} />;
 }
 
 const mapStateToProps = (state) => {
