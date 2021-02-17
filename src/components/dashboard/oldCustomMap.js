@@ -13,8 +13,8 @@ let myLocation = {};
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function (position) {
     myLocation = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude,
+      lat: parseFloat(position.coords.latitude),
+      lng: parseFloat(position.coords.longitude),
     };
   });
 } else {
@@ -85,25 +85,27 @@ function GoogleMaps({
   }, [JSON.stringify(flightPath)]);
 
   useEffect(() => {
-    if (airports.length > 0) {
-      createMarker();
-    } else if (airports.length == 0) {
-      const googleMapScript = document.createElement("script");
-      googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
-      window.document.body.appendChild(googleMapScript);
-
-      //clusterer add on
-      const clustererScript = document.createElement("script");
-      clustererScript.src =
-        "https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js";
-      window.document.body.appendChild(clustererScript);
-
-      googleMapScript.addEventListener("load", () => {
-        googleMap.current = createGoogleMap();
-
-        getAirportCoords();
-      });
-    }
+    (async () => {
+      if (airports.length > 0) {
+        createMarker();
+      } else if (airports.length == 0) {
+        const googleMapScript = document.createElement("script");
+        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
+        window.document.body.appendChild(googleMapScript);
+  
+        //clusterer add on
+        const clustererScript = document.createElement("script");
+        clustererScript.src =
+          "https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js";
+        window.document.body.appendChild(clustererScript);
+  
+        googleMapScript.addEventListener("load", async () => {
+          googleMap.current = await createGoogleMap();
+  
+          getAirportCoords();
+        });
+      }
+    })();
   }, [JSON.stringify(airports)]);
   // helper functions
   function createDomNode(airport) {
@@ -118,8 +120,8 @@ function GoogleMaps({
             <div><b>location:</b> ${airport.data.city}, ${
       airport.data.state
     }</div>
-            <div><b>lat, lng:</b> (${airport.data.lat}, ${
-      airport.data.lon
+            <div><b>lat, lng:</b> ${parseFloat(airport.data.lat)}, ${
+      parseFloat(airport.data.lon)
     })</div>
         </div>
 
@@ -188,22 +190,22 @@ function GoogleMaps({
     return infoWindowDiv;
   }
 
-  const createGoogleMap = () =>
-    new window.google.maps.Map(googleMapRef.current, {
+  const createGoogleMap = async () =>
+    await new window.google.maps.Map(googleMapRef.current, {
       zoom: 14,
       center: {
-        lat: myLocation.lat,
-        lng: myLocation.lng,
+        lat: parseFloat(myLocation.lat),
+        lng: parseFloat(myLocation.lng),
       },
     });
 
-  const createMarker = () => {
-    infoWindow.current = new window.google.maps.InfoWindow({
+  const createMarker = async () => {
+    infoWindow.current = await new window.google.maps.InfoWindow({
       content: "<div></div>",
     });
     // create markers
-    let markers = airports.map((airport) => {
-      let marker = new window.google.maps.Marker({
+    let markers = airports.map(async (airport) => {
+      let marker = await new window.google.maps.Marker({
         position: {
           lat: parseFloat(airport.lat),
           lng: parseFloat(airport.lng),
@@ -217,7 +219,7 @@ function GoogleMaps({
         const markerLat = e.latLng.lat();
         const markerLng = e.latLng.lng();
 
-        const data = { lat: markerLat, lng: markerLng };
+        const data = { lat: parseFloat(markerLat), lng: parseFloat(markerLng) };
         const airportData = await fetch(`${api}/airports/`, {
           method: "POST",
           headers: {

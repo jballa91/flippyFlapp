@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SplashPage = () => {
-  const { loading } = useAuth0();
+  const { loading, loginWithRedirect } = useAuth0();
   const classes = useStyles();
 
   if (loading) {
@@ -129,7 +129,7 @@ const SplashPage = () => {
                   Create a Plane
                 </Typography>
                 <Typography>
-                  <Link className={classes.typography_link}>Sign in</Link>,
+                  <Link className={classes.typography_link} onClick={() => loginWithRedirect({})}>Sign in</Link>,
                   input your plane's specifications, and get started.
                 </Typography>
               </Paper>
