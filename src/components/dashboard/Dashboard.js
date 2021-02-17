@@ -18,7 +18,7 @@ import FlightIcon from "@material-ui/icons/Flight";
 import RoomIcon from "@material-ui/icons/Room";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
-import GoogleMaps from "./customMap.js";
+import GoogleMaps from "./newCustomMap.js";
 import SubmitPath from "./submitPath";
 import AirplaneForm from "./AirplaneForm";
 import AirplaneList from "./AirplaneList";
@@ -151,7 +151,7 @@ const Dashboard = (props) => {
               <RoomIcon className={classes.menuIcon} />
               <Typography>Flight Plans</Typography>
             </ExpansionPanelSummary>
-            <Divider dark='true' />
+            <Divider dark="true" />
             <ExpansionPanelDetails className={classes.details}>
               <>
                 <FlightPlans></FlightPlans>
@@ -192,7 +192,7 @@ const Dashboard = (props) => {
               <FlightIcon className={classes.menuIcon} />
               <Typography>Hangar</Typography>
             </ExpansionPanelSummary>
-            <Divider dark='true' />
+            <Divider dark="true" />
             <ExpansionPanelDetails className={classes.details}>
               <AirplaneList />
               <div className={classes.fab_container}>
