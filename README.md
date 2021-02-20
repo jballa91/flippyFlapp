@@ -2,6 +2,7 @@
 #### An application for private pilots to algorithmically plan their cross-country flights
 
 ### [Flippy Flapp Live Link](https://www.flippyflapp.com)
+### [Flippy Flapp Backend](https://github.com/jballa91/flippyFlapp-api)
 
 ## Technologies Used
 - [Python](https://docs.python.org/3/)
