@@ -98,6 +98,7 @@ function GoogleMaps({
         const clustererScript = document.createElement("script");
         clustererScript.src =
           "https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js";
+        clustererScript.async = true;
         window.document.body.appendChild(clustererScript);
   
         googleMapScript.addEventListener("load", async () => {
