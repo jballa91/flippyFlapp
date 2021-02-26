@@ -85,7 +85,6 @@ function GoogleMaps({
   }, [JSON.stringify(flightPath)]);
 
   useEffect(() => {
-    (async () => {
       if (airports.length > 0) {
         createMarker();
       } else if (airports.length == 0) {
@@ -102,12 +101,11 @@ function GoogleMaps({
         window.document.body.appendChild(clustererScript);
   
         googleMapScript.addEventListener("load", async () => {
-          googleMap.current = await createGoogleMap();
+          googleMap.current = createGoogleMap();
   
           getAirportCoords();
         });
       }
-    })();
   }, [JSON.stringify(airports)]);
   // helper functions
   function createDomNode(airport) {
