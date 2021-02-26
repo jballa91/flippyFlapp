@@ -194,7 +194,7 @@ function GoogleMaps({
 
   const createGoogleMap = async () =>
     await new window.google.maps.Map(googleMapRef.current, {
-      zoom: 14,
+      zoom: 12,
       center: {
         lat: myLocation.lat,
         lng: myLocation.lng,
